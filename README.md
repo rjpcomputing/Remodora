@@ -27,7 +27,7 @@ The name is just a combination of **Remote** and **Pandora**.
 ### Windows
 
 1. Install [Lua for Windows](http://code.google.com/p/luaforwindows/)
-2. Download the source from GitHub]()
+2. Download the source from [GitHub](https://github.com/rjpcomputing/Remodora/archive/master.zip)
 
 ## Uses
 
