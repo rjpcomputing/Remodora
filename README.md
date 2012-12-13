@@ -1,4 +1,4 @@
-## Remodora - Remote control Pandora Through a Website
+## Remodora - Remote Control Pandora Through a Website
 
 _Ryan Pusztai, 2012 (MIT/X11)_
 
