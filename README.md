@@ -1,6 +1,16 @@
-# Remodora
+## Remodora - Remote control Pandora Through a Website
+
+_Ryan Pusztai, 2012 (MIT/X11)_
 
 Control Pandora through a website using pianobar and libpiano.
+
+## Why Remodora?
+
+The idea is to have a cheap headless server with audio that you can control through the web. A possible
+solution is a [Raspberry Pi](http://www.raspberrypi.org/) for $35.00. Then you can connect to it
+through any laptop, computer or phone and use the web browser to control the audio without being near the
+audio system. This can be helpful if you have builtin home audio system or you are out on the deck and want to
+change the music or check who is playing that current song.
 
 ### Name
 
@@ -39,7 +49,8 @@ The name is just a combination of **Remote** and **Pandora**.
 6. Change in the created directory and may the `remodora.lua` file executable.
 
 	`$ chmod +x remodora.lua`
-7. Execute the `remodora.lua` and open a browser and point it at **<your-ip>:8080** and enjoy.
+7. Execute the `remodora.lua` and open a browser and point it at **http://your-ip:8080**.
+8. Enjoy the music.
 
 ### UNTESTED - Windows
 
@@ -58,8 +69,8 @@ The name is just a combination of **Remote** and **Pandora**.
 2. Download the source from [GitHub](https://github.com/rjpcomputing/Remodora/archive/master.zip)
 3. Extract the source
 4. Double-click on the `remodora.lua`. This will open a Command Prompt
-5. Open your web browser and point it at **<your-ip>:8080**
-6. Enjoy music.
+5. Open your web browser and point it at **http://your-ip:8080**.
+6. Enjoy the music.
 
 ## Uses
 
