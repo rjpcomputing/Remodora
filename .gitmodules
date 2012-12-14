@@ -1,0 +1,6 @@
+[submodule "libs/Penlight"]
+	path = libs/Penlight
+	url = https://github.com/stevedonovan/Penlight.git
+[submodule "libs/Orbiter"]
+	path = libs/Orbiter
+	url = https://github.com/rjpcomputing/Orbiter.git
