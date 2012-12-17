@@ -30,22 +30,22 @@ local Remodora	= orbiter.new( html )
 local h2, p		= html.tags( "h2, p" )
 
 function Remodora:index( web )
-    return html
+	return html
 	{
-        title = "A Remodora Orbiter App",
-        h2 "Remodora to do easy stuff",
-        p "complex stuff made manageable",
-        html.list
+		title = "A Remodora Orbiter App",
+		h2 "Remodora to do easy stuff",
+		p "complex stuff made manageable",
+		html.list
 		{
-            render = html.link,
-            { "/section/first", "First section" },
-            { "/section/second", "Second Section" }
-        }
-    }
+			render = html.link,
+			{ "/section/first", "First section" },
+			{ "/section/second", "Second Section" }
+		}
+	}
 end
 
 function Remodora:sections( web, name )
-    return html { h2 ( name ) }
+	return html { h2 ( name ) }
 end
 
 Remodora:dispatch_get( Remodora.index, "/", "/index.html" )
