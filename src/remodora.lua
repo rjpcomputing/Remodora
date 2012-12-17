@@ -19,7 +19,7 @@ local path			= require( "pl.path" )
 local dir			= require( "pl.dir" )
 local stringx		= require( "pl.stringx" ).import()
 local pretty		= require( "pl.pretty" )
-require( "pl.strict" )
+require( "pl.strict" ); orbit = false;
 
 -- Orbiter
 local orbiter	= require( "orbiter" )
@@ -27,14 +27,31 @@ local html		= require( "orbiter.html" )
 
 -- Create the app instance
 local Remodora	= orbiter.new( html )
-local h2, p		= html.tags( "h2, p" )
+local h2, p, div, class, id		= html.tags( "h2, p, div, class, id" )
 
-function Remodora:index( web )
+-- Layout function makes the file have a template that all
+-- functions will call to get the base functionality from.
+function Remodora:layout( ... )
 	return html
 	{
-		title = "A Remodora Orbiter App",
-		h2 "Remodora to do easy stuff",
-		p "complex stuff made manageable",
+		title	= "Remodora v0.01",
+		styles	= { "/css/style.css" },
+		body	= { div { id = "content", ... } }
+	}
+end
+
+function Remodora:index( web )
+	-- Initialize the system
+	--
+	-- Check for FIFO file
+	if not path.exists( "ctl" ) then
+		os.execute( "mkfifo ctl" )
+	end
+
+	return self:layout
+	{
+		h2 { class = "album", "Loading" },
+		p "Web Client",
 		html.list
 		{
 			render = html.link,
@@ -45,10 +62,16 @@ function Remodora:index( web )
 end
 
 function Remodora:sections( web, name )
-	return html { h2 ( name ) }
+	return self:layout { h2 ( name ) }
 end
 
+-- Initialize the routes
 Remodora:dispatch_get( Remodora.index, "/", "/index.html" )
 Remodora:dispatch_get( Remodora.sections, "/section/(.+)" )
+Remodora:dispatch_static( "/css/.+" )
 
-Remodora:run( ... )
+if orbit then			-- Orbit loads the module and runs it using Xavante, etc
+    return app
+else					-- We use the Orbiter micro-server
+    Remodora:run( ... )
+end
