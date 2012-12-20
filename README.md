@@ -21,20 +21,37 @@ The name is just a combination of **Remote** and **Pandora**.
 * [Lua 5.1](http://lua.org)+
 * [Orbiter](http://github.com/stevedonovan/Orbiter)
 * [Penlight](http://stevedonovan.github.com/Penlight/)
+* [LuaJSON](https://github.com/harningt/luajson)
+* [LuaFilesystem](https://github.com/keplerproject/luafilesystem)
 * [Pianobar](http://github.com/PromyLOPh/pianobar)
 
 ## Installation
 
 ### Debian Based Distros + Raspbian
 
-1. Install **Lua 5.1**+ and **Pianobar**
+1. Install **Lua 5.1**+, **LuaRocks**, and **Pianobar**
 
 	`$ sudo apt-get install lua5.1 luarocks pianobar`
-2. Install **Penlight**
+2. Install **Penlight**, **LuaJSON**, **LuaFilesystem**
 
 	`$ sudo luarocks install penlight`
-3. Create a FIFO file by running `mkfifo ctl` in your Remodora directory.
-3. Configure Pianobar
+	`$ sudo luarocks install luajson`
+	`$ sudo luarocks install lfs`
+3. Download the source from [GitHub](https://github.com/rjpcomputing/Remodora/archive/master.zip)
+4. Extract it to any location
+
+	`$ unzip <remodora>.zip`
+5. Change in the created directory and may the `remodora.lua` file executable.
+
+	`$ chmod +x remodora.lua`
+6. Execute the `remodora.lua` and open a browser and point it at **http://your-ip:8080**.
+7. When it loads for the first time it will take you to the settings dialog. Fill in your Pandora username and password. Please be aware that Remodora will be managing the pianobar settings file, so if you edit it by hand it will overwrite it.
+8. Enjoy the music.
+
+#### Old Setup
+
+4. Create a FIFO file by running `mkfifo ctl` in your Remodora directory.
+5. Configure Pianobar
 	* Add your username and password to the config file
 
 			# User
@@ -44,16 +61,6 @@ The name is just a combination of **Remote** and **Pandora**.
 			#password_command = gpg --decrypt ~/password
 			fifo = path_to_ctl
 			event_command = path/to/eventcmd.lua
-
-4. Download the source from [GitHub](https://github.com/rjpcomputing/Remodora/archive/master.zip)
-5. Extract it to any location
-
-	`$ unzip <remodora>.zip`
-6. Change in the created directory and may the `remodora.lua` file executable.
-
-	`$ chmod +x remodora.lua`
-7. Execute the `remodora.lua` and open a browser and point it at **http://your-ip:8080**.
-8. Enjoy the music.
 
 ### NON-FUNCTIONING - Windows
 

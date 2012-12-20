@@ -33,4 +33,10 @@ elseif "songban" == event then
 	io.output( path.join( out, "message" ) ):write( "Banned" )
 elseif "songshelf" == event then
 	io.output( path.join( out, "message" ) ):write( "Tired" )
+elseif "usergetstations" == event then
+	local stations = {}
+	for i = 0, details.stationCount do
+		stations[1 + #stations] = details["station" .. i]
+	end
+	io.output( path.join( out, "stations.json" ) ):write( json.encode( stations ) )
 end

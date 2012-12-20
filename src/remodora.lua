@@ -12,6 +12,7 @@
 -- ----------------------------------------------------------------------------
 package.path = package.path .. ";./?/init.lua"	-- Add 'init.lua' loading to the current directory
 local lfs			= require( "lfs" )
+local json			= require( "json" )
 -- Penlight
 local appSupport	= require( "pl.app" )
 local class			= require( "pl.class" )
@@ -29,49 +30,79 @@ require( "pl.strict" ); orbit = false;
 local orbiter	= require( "orbiter" )
 local html		= require( "orbiter.html" )
 
+-- HELPER FUNCTIONS -----------------------------------------------------------
 --
-local function GetStations()
-
+local function IsProcessRunning( processName )
+	return os.execute( ("ps --no-heading -C %s"):format( processName ) ) == 0
 end
 
-local function InitializePianobar()
-	local pianobarConfigDir		= path.expanduser( "~/.config/pianobar" )
-	local pianobarConfigFile	= path.join( pianobarConfigDir, "config" )
+-- APP INSTANCE ---------------------------------------------------------------
+--
+-- Create the app instance
+local Remodora = orbiter.new( html )
+local h2, p, div, class, id		= html.tags( "h2, p, div, class, id" )
 
-	if path.exists( pianobarConfigFile ) then
+Remodora._APPNAME = "Remodora"
+Remodora._VERSION = "0.2"
+
+function Remodora:GetStations()
+	local stationsPath = path.join( self.pianobar.configDir, "stations.json" )
+	return { "Holiday Music", "TobyMac Radio", "Christian Heavy Music" }
+
+--	if path.exists( stationsPath ) then
+--		return json.encode( io.input( stationsPath ):read( "*a" ) )
+--	else
+--		error( "No stations found" )
+--	end
+end
+
+function Remodora:InitializePianobar()
+	local pianobarConfigDir	= path.expanduser( "~/.config/pianobar" )
+	self.pianobar =
+	{
+		configDir			= pianobarConfigDir,
+		configFile			= path.join( pianobarConfigDir, "config" ),
+		eventCommandPath	= path.join( pianobarConfigDir, "events.lua" ),
+		fifoPath			= path.join( pianobarConfigDir, "ctl" ),
+	}
+	self.isFirstRun = false
+
+	if path.exists( self.pianobar.configFile ) then
 		-- Read the config in so we can check that it matches the required configuration.
-		local pianobarConfiguration, errMsg = config.read( pianobarConfigFile )
+		local pianobarConfiguration, errMsg = config.read( self.pianobar.configFile )
 		if pianobarConfiguration then
-			--
+			-- Load the configuration into the object
+			self.pianobar.config = pianobarConfiguration
 		else
-			error( ("Could not read the pianobar config file from %q/nMore info: %s"):format( pianobarConfigFile, errMsg ) )
+			error( ("Could not read the pianobar config file from %q/nMore info: %s"):format( self.pianobar.configFile, errMsg ) )
 		end
 	else
 		dir.makepath( pianobarConfigDir )
 
-		local eventCommandPath		= path.join( pianobarConfigDir, "events.lua" )
-		local fifoPath				= path.join( pianobarConfigDir, "ctl" )
-
 		-- Write stub configuration
 		local stub =
-		[[username = user
-		password = some_password
+		[[# User
+		user = your@user.name
+		password = password
+		# or
+		#password_command = gpg --decrypt ~/passwordusername = user
 		volume = 0
 		event_command = $eventcommand
-		fifo = $fifo]] % { eventcommand = eventCommandPath, fifo = fifoPath }
+		fifo = $fifo]] % { eventcommand = self.pianobar.eventCommandPath, fifo = self.pianobar.fifoPath }
 		-- Remove tabs
 		stub = stub:gsub( "\t", "" )
-		io.output( pianobarConfigFile ):write( stub )
+		io.output( self.pianobar.configFile ):write( stub )
 
 		-- Write the events.lua
 		local eventContents = io.input( "support/events.lua" ):read( "*a" )
-print( eventContents:format( lfs.currentdir() ) )
-		io.output( eventCommandPath ):write( eventContents:format( lfs.currentdir() ) )
+		io.output( self.pianobar.eventCommandPath ):write( eventContents:format( lfs.currentdir() ) )
 
 		-- Write fifo file
-		if not path.exists( fifoPath ) then
-			io.execute( ("mkfifo %s"):format( fifoPath ) )
+		if not path.exists( self.pianobar.fifoPath ) then
+			os.execute( ("mkfifo %s"):format( self.pianobar.fifoPath ) )
 		end
+
+		self.isFirstRun = true
 
 		return true
 	end
@@ -79,59 +110,69 @@ print( eventContents:format( lfs.currentdir() ) )
 	return false
 end
 
--- Create the app instance
-local Remodora = orbiter.new( html )
-local h2, p, div, class, id		= html.tags( "h2, p, div, class, id" )
-
 -- Layout function makes the file have a template that all
 -- functions will call to get the base functionality from.
-function Remodora:layout( ... )
+function Remodora:Layout( page )
 	return html
 	{
-		title	= "Remodora v0.01",
-		favicon	= { "/images/pandora.png" },
-		styles	= { "/css/style.css" },
-		body	= { div { id = "content", ... } }
+		title	= page.title or ("%s v%s"):format( self._APPNAME, self._VERSION ),
+		favicon	= page.favicon or { "/images/pandora.png" },
+		styles	= page.styles or { "/css/style.css" },
+		body	= { div { id = "content", page.content } }
 	}
 end
 
-function Remodora:index( web )
+function Remodora:Index( web )
 	-- Make sure pianobar is running, if not start it
+	local firstRunText = nil
+	if self.isFirstRun then firstRunText = "First time running Remodora" end
+	local pianobarRunning = ""
+	if IsProcessRunning( "pianobar" ) then
+		pianobarRunning = "Pianobar is running"
+	else
+		pianobarRunning = "Pianobar is not running"
+	end
 
-	return self:layout
+	return self:Layout
 	{
-		h2 { class = "album", "Loading" },
-		p "Web Client",
-
+		content =
+		{
+			h2 { class = "album", "Loading" },
+			p "Web Client",
+			p( firstRunText ),
+			p( pianobarRunning ),
+		}
 	}
 end
 
-function Remodora:stations( web )
-	local stations = GetStations()
+function Remodora:Stations( web )
+	local stations = self:GetStations()
 
-	return self:layout
+	return self:Layout
 	{
-		h2 ( "Stations" ),
-		html.list
+		title = ("%s v%s - Stations"):format( self._APPNAME, self._VERSION ),
+		content =
 		{
-			render = html.link,
-			{ "/section/first", "First section" },
-			{ "/section/second", "Second Section" }
+			h2 ( "Stations" ),
+			html.list
+			{
+				--render = html.link,
+				data = stations
+			}
 		}
 	}
 end
 
 -- Initialize the routes
-Remodora:dispatch_get( Remodora.index, "/", "/index.html" )
-Remodora:dispatch_get( Remodora.stations, "/stations" )
+Remodora:dispatch_get( Remodora.Index, "/", "/index.html" )
+Remodora:dispatch_get( Remodora.Stations, "/stations" )
 Remodora:dispatch_static( "/css/.+" )
 Remodora:dispatch_static( "/images/.+" )
 Remodora:dispatch_static( "/js/.+" )
 
 -- Main entry point
 local function main( ... )
-	local isFirstRun = InitializePianobar()
-
+	local isFirstRun = Remodora:InitializePianobar()
 
 	if orbit then			-- Orbit loads the module and runs it using Xavante, etc
 		return Remodora
