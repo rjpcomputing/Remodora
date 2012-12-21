@@ -8,19 +8,15 @@ local pretty	= require( "pl.pretty" )
 local out = "%s"
 
 local event = arg[1]
+print( "event:", event )
+print( string.rep( "-", 40 ) )
 local details = {}
 for line in io.stdin:lines() do
-	local detail = tablex.imap( stringx.strip, stringx.split( line, "=", 1 ) )
-	details[detail[1]] = detail[2]
+	local lineDetails = stringx.split( line, "=" )
+	details[lineDetails[1]] = lineDetails[2]
 end
 
 print( pretty.write(details) )
-
---local artist	= details.artist
---local title		= details.title
---local album		= details.album
---local coverArt	= details.coverArt
---local rating	= details.rating
 
 if "songstart" == event then
 	io.output( path.join( out, "currentSong.json" ) ):write( json.encode( details ) )

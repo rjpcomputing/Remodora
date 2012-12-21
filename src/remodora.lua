@@ -29,6 +29,7 @@ require( "pl.strict" ); orbit = false;
 -- Orbiter
 local orbiter	= require( "orbiter" )
 local html		= require( "orbiter.html" )
+local jq		= require( "orbiter.libs.jquery" )
 
 -- HELPER FUNCTIONS -----------------------------------------------------------
 --
@@ -88,14 +89,18 @@ function Remodora:InitializePianobar()
 		#password_command = gpg --decrypt ~/passwordusername = user
 		volume = 0
 		event_command = $eventcommand
-		fifo = $fifo]] % { eventcommand = self.pianobar.eventCommandPath, fifo = self.pianobar.fifoPath }
+		fifo = $fifo
+		tls_fingerprint = 2D0AFDAFA16F4B5C0A43F3CB1D4752F9535507C0]] % { eventcommand = self.pianobar.eventCommandPath, fifo = self.pianobar.fifoPath }
 		-- Remove tabs
 		stub = stub:gsub( "\t", "" )
 		io.output( self.pianobar.configFile ):write( stub )
 
 		-- Write the events.lua
 		local eventContents = io.input( "support/events.lua" ):read( "*a" )
-		io.output( self.pianobar.eventCommandPath ):write( eventContents:format( lfs.currentdir() ) )
+		local eventHandle = io.output( self.pianobar.eventCommandPath )
+		eventHandle:write( eventContents:format( lfs.currentdir() ) )
+		eventHandle:close()
+		os.execute( ("chmod +x %s"):format( self.pianobar.eventCommandPath ) )
 
 		-- Write fifo file
 		if not path.exists( self.pianobar.fifoPath ) then
@@ -110,6 +115,15 @@ function Remodora:InitializePianobar()
 	return false
 end
 
+function Remodora:FirstRun( web )
+	-- Make it so that the system knows it is all setup
+	self.isFirstRun = false;
+
+
+
+	return "First time running Remodora"
+end
+
 -- Layout function makes the file have a template that all
 -- functions will call to get the base functionality from.
 function Remodora:Layout( page )
@@ -118,6 +132,7 @@ function Remodora:Layout( page )
 		title	= page.title or ("%s v%s"):format( self._APPNAME, self._VERSION ),
 		favicon	= page.favicon or { "/images/pandora.png" },
 		styles	= page.styles or { "/css/style.css" },
+		scripts	= page.scripts,
 		body	= { div { id = "content", page.content } }
 	}
 end
@@ -125,7 +140,29 @@ end
 function Remodora:Index( web )
 	-- Make sure pianobar is running, if not start it
 	local firstRunText = nil
-	if self.isFirstRun then firstRunText = "First time running Remodora" end
+	if self.isFirstRun then
+		firstRunText = self.FirstRun( web )
+		--[[<div id="login-box" class="login-popup">
+        <a href="#" class="close"><img src="close_pop.png" class="btn_close" title="Close Window" alt="Close" /></a>
+          <form method="post" class="signin" action="#">
+                <fieldset class="textbox">
+            	<label class="username">
+                <span>Username or email</span>
+                <input id="username" name="username" value="" type="text" autocomplete="on" placeholder="Username">
+                </label>
+                <label class="password">
+                <span>Password</span>
+                <input id="password" name="password" value="" type="password" placeholder="Password">
+                </label>
+                <button class="submit button" type="button">Sign in</button>
+                <p>
+                <a class="forgot" href="#">Forgot your password?</a>
+                </p>
+                </fieldset>
+          </form>
+</div>]]
+	end
+
 	local pianobarRunning = ""
 	if IsProcessRunning( "pianobar" ) then
 		pianobarRunning = "Pianobar is running"
@@ -135,11 +172,16 @@ function Remodora:Index( web )
 
 	return self:Layout
 	{
+		scripts = "/js/login.js",
 		content =
 		{
 			h2 { class = "album", "Loading" },
 			p "Web Client",
-			p( firstRunText ),
+			--p( firstRunText ),
+			html.link( { "#login-box", "Login / Sign In", class="login-window" } ),
+			jq.button('Login',function()
+				return jq.alert 'thanks!'
+			end),
 			p( pianobarRunning ),
 		}
 	}
