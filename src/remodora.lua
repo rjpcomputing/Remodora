@@ -41,7 +41,8 @@ end
 --
 -- Create the app instance
 local Remodora = orbiter.new( html )
-local h2, p, div, class, id		= html.tags( "h2, p, div, class, id" )
+local h2, h3, p, div, class, id, a, img, span, form, label, button, input, fieldset =
+	html.tags( "h2, h3, p, div, class, id, a, img, span, form, label, button, input, fieldset" )
 
 Remodora._APPNAME = "Remodora"
 Remodora._VERSION = "0.2"
@@ -69,6 +70,7 @@ function Remodora:InitializePianobar()
 	self.isFirstRun = false
 
 	if path.exists( self.pianobar.configFile ) then
+print( "config found")
 		-- Read the config in so we can check that it matches the required configuration.
 		local pianobarConfiguration, errMsg = config.read( self.pianobar.configFile )
 		if pianobarConfiguration then
@@ -78,6 +80,7 @@ function Remodora:InitializePianobar()
 			error( ("Could not read the pianobar config file from %q/nMore info: %s"):format( self.pianobar.configFile, errMsg ) )
 		end
 	else
+print( "config not found" )
 		dir.makepath( pianobarConfigDir )
 
 		-- Write stub configuration
@@ -93,7 +96,10 @@ function Remodora:InitializePianobar()
 		tls_fingerprint = 2D0AFDAFA16F4B5C0A43F3CB1D4752F9535507C0]] % { eventcommand = self.pianobar.eventCommandPath, fifo = self.pianobar.fifoPath }
 		-- Remove tabs
 		stub = stub:gsub( "\t", "" )
-		io.output( self.pianobar.configFile ):write( stub )
+
+		local configStubHandle = io.output( self.pianobar.configFile )
+		configStubHandle:write( stub )
+		configStubHandle:close()
 
 		-- Write the events.lua
 		local eventContents = io.input( "support/events.lua" ):read( "*a" )
@@ -117,11 +123,41 @@ end
 
 function Remodora:FirstRun( web )
 	-- Make it so that the system knows it is all setup
-	self.isFirstRun = false;
-
-
-
-	return "First time running Remodora"
+	if self.isFirstRun then
+		self.isFirstRun = false
+	end
+	return
+	p {
+		"First time running Remodora",
+		html.link( { "#login-box", "Login / Sign In", class="login-window" } ),
+		div
+		{
+			id = "login-box",
+			class = "login-popup",
+			a { href = "#", class = "close", img{ src = "images/close_pop.png", class = "btn_close", title = "Close Window", alt = "Close" } },
+			form
+			{
+				method = "post", class = "signin", action = "signin",
+                fieldset
+				{
+					class = "textbox",
+					label
+					{
+						class = "username",
+						span( "Pandora Email" ),
+						input{ id = "username", name = "username", value = "", type = "text", autocomplete = "on", placeholder = "Email" }
+					},
+					label
+					{
+						class = "password",
+						span( "Pandora Password" ),
+						input{ id = "password", name = "password", value = "", type = "password", placeholder = "Password" }
+					},
+					button{ class = "submit button", type = "button", "Sign in" },
+				}
+			},
+		},
+	}
 end
 
 -- Layout function makes the file have a template that all
@@ -129,40 +165,16 @@ end
 function Remodora:Layout( page )
 	return html
 	{
-		title	= page.title or ("%s v%s"):format( self._APPNAME, self._VERSION ),
-		favicon	= page.favicon or { "/images/pandora.png" },
-		styles	= page.styles or { "/css/style.css" },
-		scripts	= page.scripts,
-		body	= { div { id = "content", page.content } }
+		title			= page.title or ("%s v%s"):format( self._APPNAME, self._VERSION ),
+		favicon			= page.favicon or { "/images/pandora.png" },
+		styles			= page.styles or { "/css/style.css" },
+		scripts			= page.scripts,
+		inline_script	= page.inline_script,
+		body			= { div { id = "content", page.content } }
 	}
 end
 
-function Remodora:Index( web )
-	-- Make sure pianobar is running, if not start it
-	local firstRunText = nil
-	if self.isFirstRun then
-		firstRunText = self.FirstRun( web )
-		--[[<div id="login-box" class="login-popup">
-        <a href="#" class="close"><img src="close_pop.png" class="btn_close" title="Close Window" alt="Close" /></a>
-          <form method="post" class="signin" action="#">
-                <fieldset class="textbox">
-            	<label class="username">
-                <span>Username or email</span>
-                <input id="username" name="username" value="" type="text" autocomplete="on" placeholder="Username">
-                </label>
-                <label class="password">
-                <span>Password</span>
-                <input id="password" name="password" value="" type="password" placeholder="Password">
-                </label>
-                <button class="submit button" type="button">Sign in</button>
-                <p>
-                <a class="forgot" href="#">Forgot your password?</a>
-                </p>
-                </fieldset>
-          </form>
-</div>]]
-	end
-
+local function GenerateNotificationMessages()
 	local pianobarRunning = ""
 	if IsProcessRunning( "pianobar" ) then
 		pianobarRunning = "Pianobar is running"
@@ -170,21 +182,67 @@ function Remodora:Index( web )
 		pianobarRunning = "Pianobar is not running"
 	end
 
-	return self:Layout
+	return
 	{
-		scripts = "/js/login.js",
-		content =
+		div
 		{
-			h2 { class = "album", "Loading" },
-			p "Web Client",
-			--p( firstRunText ),
-			html.link( { "#login-box", "Login / Sign In", class="login-window" } ),
-			jq.button('Login',function()
-				return jq.alert 'thanks!'
-			end),
-			p( pianobarRunning ),
+			id = "notification",
+			class = "info message",
+			h3( "Pianobar Status" ),
+			p( pianobarRunning )
+		},
+		div
+		{
+			class = "error message",
+			h3( "Ups, an error ocurred" ),
+			p( "This is just an error notification message." )
+		},
+		div
+		{
+			class = "warning message",
+			h3( "Wait, I must warn you!" ),
+			p( "This is just a warning notification message." )
+		},
+		div
+		{
+			class = "success message",
+			h3( "Congrats, you did it!" ),
+			p( "This is just a success notification message." )
 		}
 	}
+end
+
+function Remodora:Index( web )
+	-- Make sure pianobar is running, if not start it
+
+	return self:Layout
+	{
+		scripts = { "/js/login.js", "/js/notify.js" },
+		inline_script = "showMessage( 'info' );",
+		content =
+		{
+			GenerateNotificationMessages(),
+			h2 { class = "album", "Loading" },
+			p "Web Client",
+			self.FirstRun( web ),
+			--[[jq.button('Login',function()
+				return jq.alert 'thanks!'
+			end),]]
+		}
+	}
+end
+
+function Remodora:Signin( web )
+	local user	= web.input.user
+	local pass	= web.input.pass
+print( "Signin", pretty.write( web ) )
+print( user, pass )
+	if #user < 4 or #pass < 4 then
+		web.status = "400 Bad Request"
+		return json.encode( false, "Username or password are not formatted correctly" )
+	else
+		return json.encode( true, "OK" )
+	end
 end
 
 function Remodora:Stations( web )
@@ -208,6 +266,7 @@ end
 -- Initialize the routes
 Remodora:dispatch_get( Remodora.Index, "/", "/index.html" )
 Remodora:dispatch_get( Remodora.Stations, "/stations" )
+Remodora:dispatch_post( Remodora.Signin, "/rest/signin" )
 Remodora:dispatch_static( "/css/.+" )
 Remodora:dispatch_static( "/images/.+" )
 Remodora:dispatch_static( "/js/.+" )

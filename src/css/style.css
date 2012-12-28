@@ -96,8 +96,8 @@ only screen and (min-device-pixel-ratio : 1.5) {
 /* Mask for background, by default is not display */
 #mask {
 	display: none;
-	background: #000; 
-	position: fixed; left: 0; top: 0; 
+	background: #000;
+	position: fixed; left: 0; top: 0;
 	z-index: 10;
 	width: 100%; height: 100%;
 	opacity: 0.8;
@@ -108,7 +108,7 @@ only screen and (min-device-pixel-ratio : 1.5) {
 .login-popup{
 	display:none;
 	background: #333;
-	padding: 10px; 	
+	padding: 10px;
 	border: 2px solid #ddd;
 	float: left;
 	font-size: 1.2em;
@@ -124,36 +124,36 @@ only screen and (min-device-pixel-ratio : 1.5) {
 }
 
 img.btn_close { Position the close button
-	float: right; 
+	float: right;
 	margin: -28px -28px 0 0;
 }
 
-fieldset { 
-	border:none; 
+fieldset {
+	border:none;
 }
 
-form.signin .textbox label { 
-	display:block; 
-	padding-bottom:7px; 
+form.signin .textbox label {
+	display:block;
+	padding-bottom:7px;
 }
 
-form.signin .textbox span { 
+form.signin .textbox span {
 	display:block;
 }
 
-form.signin p, form.signin span { 
-	color:#999; 
-	font-size:11px; 
+form.signin p, form.signin span {
+	color:#999;
+	font-size:11px;
 	line-height:18px;
-} 
+}
 
-form.signin .textbox input { 
-	background:#666666; 
+form.signin .textbox input {
+	background:#666666;
 	border-bottom:1px solid #333;
 	border-left:1px solid #000;
 	border-right:1px solid #333;
 	border-top:1px solid #000;
-	color:#fff; 
+	color:#fff;
         border-radius: 3px 3px 3px 3px;
 	-moz-border-radius: 3px;
         -webkit-border-radius: 3px;
@@ -165,12 +165,12 @@ form.signin .textbox input {
 form.signin input:-moz-placeholder { color:#bbb; text-shadow:0 0 2px #000; }
 form.signin input::-webkit-input-placeholder { color:#bbb; text-shadow:0 0 2px #000;  }
 
-.button { 
+.button {
 	background: -moz-linear-gradient(center top, #f3f3f3, #dddddd);
 	background: -webkit-gradient(linear, left top, left bottom, from(#f3f3f3), to(#dddddd));
 	background:  -o-linear-gradient(top, #f3f3f3, #dddddd);
         filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#f3f3f3', EndColorStr='#dddddd');
-	border-color:#000; 
+	border-color:#000;
 	border-width:1px;
         border-radius:4px 4px 4px 4px;
 	-moz-border-radius: 4px;
@@ -180,8 +180,70 @@ form.signin input::-webkit-input-placeholder { color:#bbb; text-shadow:0 0 2px #
 	display:inline-block;
 	padding:6px 6px 4px;
 	margin-top:10px;
-	font:12px; 
+	font:12px;
 	width:214px;
 }
 .button:hover { background:#ddd; }
+
+/* Notification messages */
+.message
+{
+	background-size: 40px 40px;
+	background-image: linear-gradient(135deg, rgba(255, 255, 255, .05) 25%, transparent 25%,
+					transparent 50%, rgba(255, 255, 255, .05) 50%, rgba(255, 255, 255, .05) 75%,
+					transparent 75%, transparent);
+	box-shadow: inset 0 -1px 0 rgba(255,255,255,.4);
+	width: 100%;
+	border: 1px solid;
+	color: #fff;
+	padding: 15px;
+	position: fixed;
+	_position: absolute;
+	text-shadow: 0 1px 0 rgba(0,0,0,.5);
+	animation: animate-bg 5s linear infinite;
+}
+
+.info
+{
+	background-color: #4ea5cd;
+	border-color: #3b8eb5;
+}
+
+.error
+{
+	background-color: #de4343;
+	border-color: #c43d3d;
+}
+
+.warning
+{
+	background-color: #eaaf51;
+	border-color: #d99a36;
+}
+
+.success
+{
+	background-color: #61b832;
+	border-color: #55a12c;
+}
+
+.message h3
+{
+	margin: 0 0 5px 0;
+}
+
+.message p
+{
+	margin: 0;
+}
+
+@keyframes animate-bg
+{
+    from {
+        background-position: 0 0;
+    }
+    to {
+       background-position: -80px 0;
+    }
+}
 

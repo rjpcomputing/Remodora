@@ -1,7 +1,7 @@
 $(document).ready(function() {
 	$('a.login-window').click(function() {
 
-                //Getting the variable's value from a link
+		//Getting the variable's value from a link
 		var loginBox = $(this).attr('href');
 
 		//Fade in the Popup
@@ -23,11 +23,38 @@ $(document).ready(function() {
 		return false;
 	});
 
+	// Handle the signin
+	$( 'button.submit' ).live( 'click', function()
+	{
+		// Get the username
+		var user = $('#username').val();
+		// Get the password
+		var pass = $('#password').val();
+
+		// Do something with the username and password
+		var url = "/rest/signin?user=" + user + "&pass=" + pass;
+		console.log( url );
+		$.getJSON( url, function( data )
+		{
+			console.log( data );
+		} );
+
+		$('#mask, .login-popup').fadeOut( 300 , function()
+		{
+			$('#mask').remove();
+		} );
+
+		return false;
+	} );
+
 	// When clicking on the button close or the mask layer the popup closed
-	$('a.close, #mask').live('click', function() {
-	  $('#mask , .login-popup').fadeOut(300 , function() {
-		$('#mask').remove();
-	});
-	return false;
-	});
+	$( 'a.close, #mask' ).live( 'click', function()
+	{
+		$('#mask, .login-popup').fadeOut( 300 , function()
+		{
+			$('#mask').remove();
+		} );
+
+		return false;
+	} );
 });
