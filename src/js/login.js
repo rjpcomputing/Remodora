@@ -27,14 +27,15 @@ $(document).ready(function() {
 	$( 'button.submit' ).live( 'click', function()
 	{
 		// Get the username
-		var user = $('#username').val();
+		var username = $('#username').val();
 		// Get the password
-		var pass = $('#password').val();
+		var password = $('#password').val();
 
 		// Do something with the username and password
-		var url = "/rest/signin?user=" + user + "&pass=" + pass;
+		var url = "/rest/signin"
+		//var url = "/rest/signin?user=" + username + "&pass=" + password;
 		console.log( url );
-		$.getJSON( url, function( data )
+		$.post( url, { user: username, pass: password }, function( data )
 		{
 			console.log( data );
 		} );

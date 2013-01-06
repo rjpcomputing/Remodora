@@ -2,7 +2,7 @@
 -- events.lua - Pianobar event output to JSON
 local json		= require( "json" )
 local stringx	= require( "pl.stringx" )
-local tablex	= require( "pl.tablex" )
+local path		= require( "pl.path" )
 local pretty	= require( "pl.pretty" )
 
 local out = "%s"

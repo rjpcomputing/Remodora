@@ -20,6 +20,7 @@ local lapp			= require( "pl.lapp" )
 local path			= require( "pl.path" )
 local dir			= require( "pl.dir" )
 local config		= require( "pl.config" )
+local tablex		= require( "pl.tablex" )
 local stringx		= require( "pl.stringx" ).import()
 local pretty		= require( "pl.pretty" )
 local text			= require( "pl.text" )
@@ -31,6 +32,9 @@ local orbiter	= require( "orbiter" )
 local html		= require( "orbiter.html" )
 local jq		= require( "orbiter.libs.jquery" )
 
+-- Pianobar
+local Pianobar		= require( "pianobar" )
+
 -- HELPER FUNCTIONS -----------------------------------------------------------
 --
 local function IsProcessRunning( processName )
@@ -41,193 +45,119 @@ end
 --
 -- Create the app instance
 local Remodora = orbiter.new( html )
-local h2, h3, p, div, class, id, a, img, span, form, label, button, input, fieldset =
-	html.tags( "h2, h3, p, div, class, id, a, img, span, form, label, button, input, fieldset" )
+local h1, h2, h3, p, div, class, id, a, img, span, ul, ol, li, meta, form, label, button, input, fieldset =
+	html.tags( "h1, h2, h3, p, div, class, id, a, img, span, ul, ol, li, meta, form, label, button, input, fieldset" )
 
 Remodora._APPNAME = "Remodora"
-Remodora._VERSION = "0.2"
-
-function Remodora:GetStations()
-	local stationsPath = path.join( self.pianobar.configDir, "stations.json" )
-	return { "Holiday Music", "TobyMac Radio", "Christian Heavy Music" }
-
---	if path.exists( stationsPath ) then
---		return json.encode( io.input( stationsPath ):read( "*a" ) )
---	else
---		error( "No stations found" )
---	end
-end
+Remodora._VERSION = "1.0"
 
 function Remodora:InitializePianobar()
-	local pianobarConfigDir	= path.expanduser( "~/.config/pianobar" )
-	self.pianobar =
-	{
-		configDir			= pianobarConfigDir,
-		configFile			= path.join( pianobarConfigDir, "config" ),
-		eventCommandPath	= path.join( pianobarConfigDir, "events.lua" ),
-		fifoPath			= path.join( pianobarConfigDir, "ctl" ),
-	}
-	self.isFirstRun = false
-
-	if path.exists( self.pianobar.configFile ) then
-print( "config found")
-		-- Read the config in so we can check that it matches the required configuration.
-		local pianobarConfiguration, errMsg = config.read( self.pianobar.configFile )
-		if pianobarConfiguration then
-			-- Load the configuration into the object
-			self.pianobar.config = pianobarConfiguration
-		else
-			error( ("Could not read the pianobar config file from %q/nMore info: %s"):format( self.pianobar.configFile, errMsg ) )
-		end
-	else
-print( "config not found" )
-		dir.makepath( pianobarConfigDir )
-
-		-- Write stub configuration
-		local stub =
-		[[# User
-		user = your@user.name
-		password = password
-		# or
-		#password_command = gpg --decrypt ~/passwordusername = user
-		volume = 0
-		event_command = $eventcommand
-		fifo = $fifo
-		tls_fingerprint = 2D0AFDAFA16F4B5C0A43F3CB1D4752F9535507C0]] % { eventcommand = self.pianobar.eventCommandPath, fifo = self.pianobar.fifoPath }
-		-- Remove tabs
-		stub = stub:gsub( "\t", "" )
-
-		local configStubHandle = io.output( self.pianobar.configFile )
-		configStubHandle:write( stub )
-		configStubHandle:close()
-
-		-- Write the events.lua
-		local eventContents = io.input( "support/events.lua" ):read( "*a" )
-		local eventHandle = io.output( self.pianobar.eventCommandPath )
-		eventHandle:write( eventContents:format( lfs.currentdir() ) )
-		eventHandle:close()
-		os.execute( ("chmod +x %s"):format( self.pianobar.eventCommandPath ) )
-
-		-- Write fifo file
-		if not path.exists( self.pianobar.fifoPath ) then
-			os.execute( ("mkfifo %s"):format( self.pianobar.fifoPath ) )
-		end
-
-		self.isFirstRun = true
-
-		return true
-	end
-
-	return false
-end
-
-function Remodora:FirstRun( web )
-	-- Make it so that the system knows it is all setup
-	if self.isFirstRun then
-		self.isFirstRun = false
-	end
-	return
-	p {
-		"First time running Remodora",
-		html.link( { "#login-box", "Login / Sign In", class="login-window" } ),
-		div
-		{
-			id = "login-box",
-			class = "login-popup",
-			a { href = "#", class = "close", img{ src = "images/close_pop.png", class = "btn_close", title = "Close Window", alt = "Close" } },
-			form
-			{
-				method = "post", class = "signin", action = "signin",
-                fieldset
-				{
-					class = "textbox",
-					label
-					{
-						class = "username",
-						span( "Pandora Email" ),
-						input{ id = "username", name = "username", value = "", type = "text", autocomplete = "on", placeholder = "Email" }
-					},
-					label
-					{
-						class = "password",
-						span( "Pandora Password" ),
-						input{ id = "password", name = "password", value = "", type = "password", placeholder = "Password" }
-					},
-					button{ class = "submit button", type = "button", "Sign in" },
-				}
-			},
-		},
-	}
+	self.pianobar = Pianobar( true )
 end
 
 -- Layout function makes the file have a template that all
 -- functions will call to get the base functionality from.
 function Remodora:Layout( page )
+	local scripts = { "/js/toastr.js" }
+	for _, val in ipairs( page.scripts or {} ) do table.insert( scripts, val ) end
+	local styles = { "/css/style.css", "/css/toastr.css", "/css/toastr-responsive.css" }
+	for _, val in ipairs( page.styles or {} ) do table.insert( styles, val ) end
+
 	return html
 	{
 		title			= page.title or ("%s v%s"):format( self._APPNAME, self._VERSION ),
 		favicon			= page.favicon or { "/images/pandora.png" },
-		styles			= page.styles or { "/css/style.css" },
-		scripts			= page.scripts,
+		styles			= styles,
+		scripts			= scripts,
 		inline_script	= page.inline_script,
-		body			= { div { id = "content", page.content } }
-	}
-end
-
-local function GenerateNotificationMessages()
-	local pianobarRunning = ""
-	if IsProcessRunning( "pianobar" ) then
-		pianobarRunning = "Pianobar is running"
-	else
-		pianobarRunning = "Pianobar is not running"
-	end
-
-	return
-	{
-		div
+		body			=
 		{
-			id = "notification",
-			class = "info message",
-			h3( "Pianobar Status" ),
-			p( pianobarRunning )
+			meta { name = "viewport", content = "width=device-width, initial-scale=1.0, maximum-scale=1.0" },
+			div
+			{
+				id = "login-box",
+				class = "login-popup",
+				a { href = "#", class = "close", img{ src = "images/close_pop.png", class = "btn_close", title = "Close Window", alt = "Close" } },
+				form
+				{
+					method = "post", class = "signin", action = "signin",
+					fieldset
+					{
+						class = "textbox",
+						label
+						{
+							class = "username",
+							span( "Pandora Email" ),
+							input{ id = "username", name = "username", value = "", type = "text", autocomplete = "on", placeholder = "Email" }
+						},
+						label
+						{
+							class = "password",
+							span( "Pandora Password" ),
+							input{ id = "password", name = "password", value = "", type = "password", placeholder = "Password" }
+						},
+						button{ class = "submit button", type = "button", "Sign in" },
+					}
+				},
+			},
+			div
+			{
+				id = "navcontainer",
+				div
+				{
+					id = "dock",
+					class = "right",
+					ul
+					{
+						li { html.link { "#login-box", "Pandora Login", class = "login-window" } },
+						li { html.link { "#", "", title = "Stop Pandora", class = "stop-pandora", onclick = "$.get('/rest/action/q')" } },
+					},
+				},
+			},
+			div
+			{
+				id = "controls",
+				ul
+				{
+					class = "toolbar",
+					li { html.link { "/stations", "", title = "Change Station", class = "change-stations" } },
+					li { html.link { "#", "", title = "Play/Pause", onclick = "$.get( '/rest/action/p' );$(this).toggleClass( 'controls-play controls-pause' );", class = "controls-pause" } },
+					li { html.link { "#", "", title = "Next", onclick = "$.get( '/rest/action/n' )", class = "controls-next" } },
+					li { html.link { "#", "", title = "Love", onclick = "$.get( '/rest/action/+' )", class = "controls-love" } },
+					li { html.link { "#", "", title = "Ban", onclick = "$.get( '/rest/action/-' )", class = "controls-ban" } },
+					li { html.link { "#", "", title = "Tired", onclick = "$.get( '/rest/action/t' )", class = "controls-tired" } },
+				},
+			},
+			div { id = "content", page.content },
 		},
-		div
-		{
-			class = "error message",
-			h3( "Ups, an error ocurred" ),
-			p( "This is just an error notification message." )
-		},
-		div
-		{
-			class = "warning message",
-			h3( "Wait, I must warn you!" ),
-			p( "This is just a warning notification message." )
-		},
-		div
-		{
-			class = "success message",
-			h3( "Congrats, you did it!" ),
-			p( "This is just a success notification message." )
-		}
 	}
 end
 
 function Remodora:Index( web )
 	-- Make sure pianobar is running, if not start it
+	local pianobarRunning = ""
+	if IsProcessRunning( "pianobar" ) then
+		pianobarRunning = "Pianobar is running"
+	else
+		pianobarRunning = "Pianobar is not running"
+		self.pianobar:Start()
+	end
 
 	return self:Layout
 	{
-		scripts = { "/js/login.js", "/js/notify.js" },
-		inline_script = "showMessage( 'info' );",
+		scripts = { "/js/login.js", "/js/main.js" },
+		--inline_script = [=[]=],
 		content =
 		{
-			GenerateNotificationMessages(),
-			h2 { class = "album", "Loading" },
-			p "Web Client",
-			self.FirstRun( web ),
-			--[[jq.button('Login',function()
-				return jq.alert 'thanks!'
-			end),]]
+			img { class = "albumart shadow", src = "../images/song.png" },
+			img { class = "love", style = "display: none;", src = "../images/love_song.48x48.png" },
+			div
+			{
+				class = "songdetails",
+				h2 { class = "title", "Loading..." },
+				div { "by ", h2 { class = "artist", "" } },
+				div { "from ", h2 { class = "album", "" } },
+			}
 		}
 	}
 end
@@ -235,18 +165,25 @@ end
 function Remodora:Signin( web )
 	local user	= web.input.user
 	local pass	= web.input.pass
-print( "Signin", pretty.write( web ) )
-print( user, pass )
+
 	if #user < 4 or #pass < 4 then
 		web.status = "400 Bad Request"
-		return json.encode( false, "Username or password are not formatted correctly" )
+		return json.encode( { false, "Username or password are not formatted correctly" } )
 	else
-		return json.encode( true, "OK" )
+		self.pianobar:WriteUsernamePassword( user, pass )
+
+		return json.encode( { true, "OK" } )
 	end
 end
 
 function Remodora:Stations( web )
-	local stations = self:GetStations()
+	local stations = self.pianobar:GetStations()
+
+	local stationLinks = {}
+	-- Convert them to links for switching
+	for idx, val in ipairs( stations ) do
+		stationLinks[1 + #stationLinks] = { "/station/%i" % (idx - 1), val }
+	end
 
 	return self:Layout
 	{
@@ -256,16 +193,36 @@ function Remodora:Stations( web )
 			h2 ( "Stations" ),
 			html.list
 			{
-				--render = html.link,
-				data = stations
+				render = html.link,
+				data = stationLinks
 			}
 		}
 	}
 end
 
+function Remodora:ChangeStation( web, station )
+	self.pianobar:ChangeStation( station )
+
+	return web:redirect( "/" )
+end
+
+function Remodora:Action( web, action )
+	self.pianobar:PerformAction( action )
+
+	return json.encode( { true, "Ok" } )
+	--return web:redirect( "/" )
+end
+
+function Remodora:GetSongInfo( web )
+	return json.encode( self.pianobar:GetSongInfo() )
+end
+
 -- Initialize the routes
 Remodora:dispatch_get( Remodora.Index, "/", "/index.html" )
 Remodora:dispatch_get( Remodora.Stations, "/stations" )
+Remodora:dispatch_get( Remodora.ChangeStation, "/station/(.+)" )
+Remodora:dispatch_get( Remodora.Action, "/rest/action/(.+)" )
+Remodora:dispatch_get( Remodora.GetSongInfo, "/rest/songinfo" )
 Remodora:dispatch_post( Remodora.Signin, "/rest/signin" )
 Remodora:dispatch_static( "/css/.+" )
 Remodora:dispatch_static( "/images/.+" )

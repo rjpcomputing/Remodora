@@ -1,8 +1,14 @@
 body
 {
 	background-color: #222;
+	/*background-color: #02142A;*/
+	font-family: sans-serif;
 	color: #CCC;
+	margin: 0;
+	width: 100%;
+	-webkit-text-size-adjust: none;
 }
+
 a
 {
 	color: #385ea2;
@@ -10,88 +16,146 @@ a
 	/*word-break: break-all;*/
 }
 a:hover { text-decoration: underline; }
-#content
+
+/* -- Main Content ------------------------------ */
+#content { width: 100%; }
+#content h2 { margin: 0px; }
+#content h2.artist { font-weight:bold;display: inline; }
+#content h2.album { font-style: italic;display: inline; }
+#content img.albumart { width:300px; height:300px; display: block; margin: 5px auto; }
+#content img.love { position:absolute; top: 348px; left: 255px; z-index: 3; }
+
+.songdetails { margin-left: 5px; }
+.shadow
 {
-	left:50%;
-
-	/*position:absolute;
-	top:50%;
-
-	width: 80%;
-	margin-top:-165px;
-	margin-left:-500px;
-	font-weight: bold;*/
+	-moz-box-shadow: 3px 3px 4px #000;
+	-webkit-box-shadow: 3px 3px 4px #000;
+	box-shadow: 3px 3px 4px #000;
+	/* For IE 8 */
+	-ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#000000')";
+	/* For IE 5.5 - 7 */
+	filter: progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#000000');
 }
 
-#content h2 { font-size:2em; margin:0 }
-#content h2.album { font-style: italic; }
-#content img.albumart {width:300px; height:300px; float:left; padding-right:10px; margin-bottom:30px}
-#content img.love {float:right;}
-
-/* Smartphones (portrait and landscape) ----------- */
-@media only screen
-and (min-device-width : 320px)
-and (max-device-width : 480px) {
-/* Styles */
-	background-color: #CCCCCC;
+#controls1
+{
+	background: #4E4E4E;
+	border-top: 1px solid #747474;
+	/*border-bottom: 1px solid #747474;*/
+	height: 60px;
+	padding:0px;
+	margin: 0px;
 }
 
-/* Smartphones (landscape) ----------- */
-@media only screen
-and (min-width : 321px) {
-/* Styles */
+ul.toolbar
+{
+	background: url( "../images/controls.png" ) transparent;
+	/*  background: #4E4E4E;
+	  border-top: 1px solid #747474;
+	  border-bottom: 1px solid #747474;*/
+	height: 64px;
+	width: 100%;
+	padding:0px;
+	list-style-type:none;
+	margin: 0px;				/*Makes navigation have space on the left and right*/
+	/*float: right;*/			/*Makes navigation small and to the left*/
+	/*position: absolute;*/		/*Makes navigation as small as possible*/
 }
 
-/* Smartphones (portrait) ----------- */
-@media only screen
-and (max-width : 320px) {
-/* Styles */
+ul.toolbar li
+{
+	display:inline;
 }
 
-/* iPads (portrait and landscape) ----------- */
-@media only screen
-and (min-device-width : 768px)
-and (max-device-width : 1024px) {
-/* Styles */
+ul.toolbar li a
+{
+	float:left;
+	cursor:pointer;
+	width:58px;
+	height:64px;
+	/*opacity: 0.6;*/
 }
 
-/* iPads (landscape) ----------- */
-@media only screen
-and (min-device-width : 768px)
-and (max-device-width : 1024px)
-and (orientation : landscape) {
-/* Styles */
+#navcontainer
+{
+	/*background: url( "../images/dock.png" ) transparent;*/
+	height: 25px;
+	background: #4E4E4E;
+	border-bottom: 1px solid #E5E5E5;
+	/*border-bottom: 1px solid #747474;*/
+	/*margin: 0 15px;*/			/*Makes navigation have space on the left and right*/
+	/*float: right;*/			/*Makes navigation small and to the left*/
+	/*position: absolute;*/		/*Makes navigation as small as possible*/
 }
 
-/* iPads (portrait) ----------- */
-@media only screen
-and (min-device-width : 768px)
-and (max-device-width : 1024px)
-and (orientation : portrait) {
-/* Styles */
+/* -- Dock -------------------------------------- */
+#dock
+{
+	height: 25px;
+	float: right;
+	/*position: absolute;*/
+	top: 0;
+	right: 2px;
 }
 
-/* Desktops and laptops ----------- */
-@media only screen
-and (min-width : 1224px) {
-	/* Styles */
-	background-color: #ababab;
+#dock .left
+{
+    float: left;
+    width: 3px;
+    height: 25px;
+    /*background: url('../images/dock.png') no-repeat left top;*/
 }
 
-/* Large screens ----------- */
-@media only screen
-and (min-width : 1824px) {
-	/* Styles */
-	body { background-color: #444444; }
-	#content div { background-color: #000 }
+#dock .right
+{
+    float: left;
+    width: 3px;
+    height: 25px;
+    /*background: url('../images/dock.png') no-repeat right top;*/
 }
 
-/* iPhone 4 ----------- */
-@media
-only screen and (-webkit-min-device-pixel-ratio : 1.5),
-only screen and (min-device-pixel-ratio : 1.5) {
-/* Styles */
+#dock ul,
+#dock ul li
+{
+    float: left;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
 }
+
+#dock ul
+{
+    /*padding: 0 6px;*/
+    height: 25px;
+    /*background-color: #000;*/		/*Uncomment to make dock a different color*/
+}
+
+#dock ul li
+{
+    /*padding: 0 6px;*/
+    position: relative;
+}
+
+#dock ul li a
+{
+    float: left;
+    display: block;
+    padding: 0 5px;
+    color: #ccc;
+    text-decoration: none;
+    font-size: 12px;
+    line-height: 22px;
+}
+
+#dock ul li a:hover,
+#dock ul li.selected a
+{
+    color: #fff;
+    border-bottom: 2px solid #ff9c08;
+	font-weight: bold;
+}
+
+/* -- Login Dialog ------------------------------ */
 
 /* Mask for background, by default is not display */
 #mask {
@@ -185,65 +249,54 @@ form.signin input::-webkit-input-placeholder { color:#bbb; text-shadow:0 0 2px #
 }
 .button:hover { background:#ddd; }
 
-/* Notification messages */
-.message
+/* -- Icons ------------------------------------- */
+.stop-pandora
 {
-	background-size: 40px 40px;
-	background-image: linear-gradient(135deg, rgba(255, 255, 255, .05) 25%, transparent 25%,
-					transparent 50%, rgba(255, 255, 255, .05) 50%, rgba(255, 255, 255, .05) 75%,
-					transparent 75%, transparent);
-	box-shadow: inset 0 -1px 0 rgba(255,255,255,.4);
-	width: 100%;
-	border: 1px solid;
-	color: #fff;
-	padding: 15px;
-	position: fixed;
-	_position: absolute;
-	text-shadow: 0 1px 0 rgba(0,0,0,.5);
-	animation: animate-bg 5s linear infinite;
+	background: url( "../images/halt.22x22.png" ) no-repeat center center;
+	width: 22px;
+	height: 22px;
+	padding: 0px;
 }
 
-.info
+.change-stations
 {
-	background-color: #4ea5cd;
-	border-color: #3b8eb5;
+	background: url( "../images/stations.48x48.png" ) no-repeat center center;
+	/*padding: 0px 0px 38px 50px;*/
 }
 
-.error
+.controls-next
 {
-	background-color: #de4343;
-	border-color: #c43d3d;
+	background: url( "../images/next.48x48.png" ) no-repeat center center;
+	/*padding: 0px 0px 38px 64px;*/
 }
 
-.warning
+.controls-play
 {
-	background-color: #eaaf51;
-	border-color: #d99a36;
+	background: url( "../images/play.48x48.png" ) no-repeat center center;
+	/*padding: 0px 0px 38px 64px;*/
 }
 
-.success
+.controls-pause
 {
-	background-color: #61b832;
-	border-color: #55a12c;
+	background: url( "../images/pause.48x48.png" ) no-repeat center center;
+	/*padding: 0px 0px 38px 64px;*/
 }
 
-.message h3
+.controls-love
 {
-	margin: 0 0 5px 0;
+	background: url( "../images/love_song.48x48.png" ) no-repeat center center;
+	/*padding: 0px 0px 38px 64px;*/
 }
 
-.message p
+.controls-ban
 {
-	margin: 0;
+	background: url( "../images/ban_song.48x48.png" ) no-repeat center center;
+	/*padding: 0px 0px 38px 64px;*/
 }
 
-@keyframes animate-bg
+.controls-tired
 {
-    from {
-        background-position: 0 0;
-    }
-    to {
-       background-position: -80px 0;
-    }
+	background: url( "../images/tired.48x48.png" ) no-repeat center center;
+	/*padding: 0px 0px 38px 64px;*/
 }
 
