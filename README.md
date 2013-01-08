@@ -22,7 +22,7 @@ The name is just a combination of **Remote** and **Pandora**.
 * [Orbiter](http://github.com/stevedonovan/Orbiter)
 * [Penlight](http://stevedonovan.github.com/Penlight/)
 * [LuaJSON](https://github.com/harningt/luajson)
-* [LuaFilesystem](https://github.com/keplerproject/luafilesystem)
+* [LuaSocket](https://github.com/keplerproject/luasocket)
 * [Pianobar](http://github.com/PromyLOPh/pianobar)
 
 ## Installation
@@ -32,21 +32,24 @@ The name is just a combination of **Remote** and **Pandora**.
 1. Install **Lua 5.1**+, **LuaRocks**, and **Pianobar**
 
 	`$ sudo apt-get install lua5.1 luarocks pianobar`
-2. Install **Penlight**, **LuaJSON**, **LuaFilesystem**
+2. Install **Penlight**, **LuaJSON**, **LuaSocket**
 
 	`$ sudo luarocks install penlight`
 	`$ sudo luarocks install luajson`
-	`$ sudo luarocks install lfs`
+	`$ sudo luarocks install luasocket`
 3. Download the source from [GitHub](https://github.com/rjpcomputing/Remodora/archive/master.zip)
 4. Extract it to any location
 
 	`$ unzip <remodora>.zip`
-5. Change in the created directory and may the `remodora.lua` file executable.
+5. Change into the created directory 'src' and make the `remodora.lua` file executable.
 
 	`$ chmod +x remodora.lua`
-6. Execute the `remodora.lua` and open a browser and point it at **http://your-ip:8080**.
-7. When it loads for the first time it will take you to the settings dialog. Fill in your Pandora username and password. Please be aware that Remodora will be managing the pianobar settings file, so if you edit it by hand it will overwrite it.
-8. Enjoy the music.
+6. Copy `Orbiter` from the 'libs' directory.
+
+	`$ cp -r ../libs/Orbiter/orbiter .`
+7. Execute the `remodora.lua` and open a browser and point it at **http://your-ip:8080**.
+8. When it loads for the first time it will take you to the settings dialog. Fill in your Pandora username and password. Please be aware that Remodora will be managing the pianobar settings file, so if you edit it by hand it will overwrite it.
+9. Enjoy the music.
 
 #### Old Setup
 
