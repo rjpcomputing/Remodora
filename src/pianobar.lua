@@ -22,7 +22,7 @@ text.format_operator()
 -- HELPER FUNCTIONS -----------------------------------------------------------
 --
 local function IsProcessRunning( processName )
-	return os.execute( ("ps --no-heading -C %s > /dev/null"):format( processName ) ) == 0
+	return os.execute( ("ps --no-heading -C %s &> /dev/null"):format( processName ) ) == 0
 end
 
 -- PIANOBAR CLASS -------------------------------------------------------------
@@ -187,7 +187,6 @@ end
 
 function Pianobar:ChangeStation( station )
 	self:WriteFIFO( "s" .. station )
---	self:WriteFIFO( station )
 end
 
 function Pianobar:GetSongInfo()
@@ -213,10 +212,11 @@ end
 
 function Pianobar:Quit()
 	self:WriteFIFO( "q" )
-
+	self:Trace( "Quit" )
 	-- We tried nicely, now it is time to KILL!
 	if self:IsRunning() then
 		os.execute( "killall -9 pianobar" )
+		self:Trace( "Still found pianobar. Forcefully killed...")
 	end
 end
 

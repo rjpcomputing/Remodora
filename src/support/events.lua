@@ -3,20 +3,15 @@
 local json		= require( "json" )
 local stringx	= require( "pl.stringx" )
 local path		= require( "pl.path" )
-local pretty	= require( "pl.pretty" )
 
 local out = "%s"
 
 local event = arg[1]
-print( "event:", event )
-print( string.rep( "-", 40 ) )
 local details = {}
 for line in io.stdin:lines() do
 	local lineDetails = stringx.split( line, "=" )
 	details[lineDetails[1]] = lineDetails[2]
 end
-
-print( pretty.write(details) )
 
 if "songstart" == event then
 	io.output( path.join( out, "currentSong.json" ) ):write( json.encode( details ) )

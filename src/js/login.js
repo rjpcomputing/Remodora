@@ -28,17 +28,14 @@ $(document).ready(function() {
 	{
 		// Get the username
 		var username = $('#username').val();
-		// Get the password
+		// Get the passwords
 		var password = $('#password').val();
 
 		// Do something with the username and password
 		var url = "/rest/signin"
 		//var url = "/rest/signin?user=" + username + "&pass=" + password;
-		console.log( url );
-		$.post( url, { user: username, pass: password }, function( data )
-		{
-			console.log( data );
-		} );
+
+		$.post( url, { user: username, pass: password } );
 
 		$('#mask, .login-popup').fadeOut( 300 , function()
 		{

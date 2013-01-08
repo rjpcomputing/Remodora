@@ -2,12 +2,7 @@ $(document).ready( function()
 {
 	//toastr.info('Are you the 6 fingered man?');
 	//toastr.error('Another message');
-	// Find the controls and hook up the click events
-	//var play = $("controls-play");
-	//var next = $("controls-next");
-	//var love = $("controls-love");
-	//var ban = $("controls-ban");
-	//var tired = $("controls-tired");
+
 	var title = $("h2.title");
 	var artist = $("h2.artist");
 	var album = $("h2.album");

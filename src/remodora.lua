@@ -73,6 +73,8 @@ function Remodora:Layout( page )
 		body			=
 		{
 			meta { name = "viewport", content = "width=device-width, initial-scale=1.0, maximum-scale=1.0" },
+			meta { name = "apple-mobile-web-app-capable", content = "yes" },
+			meta { name = "apple-mobile-web-app-status-bar-style", content = "black-translucent" },
 			div
 			{
 				id = "login-box",
@@ -135,18 +137,35 @@ end
 
 function Remodora:Index( web )
 	-- Make sure pianobar is running, if not start it
-	local pianobarRunning = ""
-	if IsProcessRunning( "pianobar" ) then
-		pianobarRunning = "Pianobar is running"
-	else
-		pianobarRunning = "Pianobar is not running"
+	if not self.pianobar:IsRunning() then
 		self.pianobar:Start()
+	end
+
+	local script = nil
+	if self.pianobar.isFirstRun then
+		script = [=[$(document).ready( function()
+		{
+			toastr.options =
+			{
+				timeOut: 30000,
+				extendedTimeOut: 3000
+			};
+
+			// Show toasts
+			toastr.info( "Don't forget to pick a station.", "First Time Running" );
+			toastr.error( "This is the first time running Remodora. You must first login to Pandora. Please fill in your username and password.", "First Time Running" );
+
+			// Show pandora login
+			$("a.login-window").click();
+		} );]=]
+
+		self.pianobar.isFirstRun = false
 	end
 
 	return self:Layout
 	{
 		scripts = { "/js/login.js", "/js/main.js" },
-		--inline_script = [=[]=],
+		inline_script = script,
 		content =
 		{
 			img { class = "albumart shadow", src = "../images/song.png" },
@@ -202,6 +221,7 @@ end
 
 function Remodora:ChangeStation( web, station )
 	self.pianobar:ChangeStation( station )
+	--self.pianobar:Quit()
 
 	return web:redirect( "/" )
 end
