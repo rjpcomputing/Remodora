@@ -22,7 +22,7 @@ The name is just a combination of **Remote** and **Pandora**.
 * [Orbiter](http://github.com/stevedonovan/Orbiter)
 * [Penlight](http://stevedonovan.github.com/Penlight/)
 * [LuaJSON](https://github.com/harningt/luajson)
-* [LuaSocket](https://github.com/keplerproject/luasocket)
+* [LuaSocket](http://w3.impa.br/~diego/software/luasocket/)
 * [Pianobar](http://github.com/PromyLOPh/pianobar)
 
 ## Installation
@@ -41,7 +41,7 @@ The name is just a combination of **Remote** and **Pandora**.
 4. Extract it to any location
 
 	`$ unzip <remodora>.zip`
-5. Change into the created directory 'src' and make the `remodora.lua` file executable.
+5. Change into the 'src' directory and make the `remodora.lua` file executable.
 
 	`$ chmod +x remodora.lua`
 6. Copy `Orbiter` from the 'libs' directory.
