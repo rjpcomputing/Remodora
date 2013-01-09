@@ -9,12 +9,14 @@
 --	Revisions:
 --		0.0 - Initial placeholder
 -- ----------------------------------------------------------------------------
+-- Socket for sleep
+local socket		= require( "socket" )
 -- Penlight
 local class			= require( "pl.class" )
 local path			= require( "pl.path" )
 local dir			= require( "pl.dir" )
 local config		= require( "pl.config" )
-local stringx		= require( "pl.stringx" ).import()
+--local stringx		= require( "pl.stringx" ).import()
 local pretty		= require( "pl.pretty" )
 local text			= require( "pl.text" )
 text.format_operator()
@@ -22,7 +24,10 @@ text.format_operator()
 -- HELPER FUNCTIONS -----------------------------------------------------------
 --
 local function IsProcessRunning( processName )
-	return os.execute( ("ps --no-heading -C %s &> /dev/null"):format( processName ) ) == 0
+	local ret = io.popen( ("ps --no-heading -C %s"):format( processName ) ):read( "*a" )
+
+	return #ret > 0
+--	return os.execute( ("ps --no-heading -C %s &> /dev/null &"):format( processName ) ) == 0
 end
 
 -- PIANOBAR CLASS -------------------------------------------------------------
@@ -30,9 +35,16 @@ end
 local Pianobar = class()
 
 function Pianobar:WriteFIFO( command )
-	local f = io.output( self.fifoPath )
-	f:write( ("%s\n"):format( command ) )
-	f:close()
+	if self:IsRunning() then
+		local f = io.output( self.fifoPath )
+		f:write( ("%s\n"):format( command ) )
+		f:close()
+
+--		f = nil
+--		collectgarbage()
+	else
+		error( ("pianobar not running. Can't execute command %q"):format( command ) )
+	end
 end
 
 function Pianobar:Trace( ... )
@@ -77,6 +89,7 @@ function Pianobar:_init( shouldLog )
 		# or
 		#password_command = gpg --decrypt ~/passwordusername = user
 		volume = 0
+		sort = quickmix_10_name_az
 		event_command = $eventcommand
 		fifo = $fifo
 		tls_fingerprint = 2D0AFDAFA16F4B5C0A43F3CB1D4752F9535507C0]] % { eventcommand = self.eventCommandPath, fifo = self.fifoPath }
@@ -110,9 +123,10 @@ function Pianobar:_init( shouldLog )
 	end
 end
 
-function Pianobar:Start()
+function Pianobar:Start( shouldSetStation )
 	if not self:IsRunning() then
-		os.execute( "pianobar &" )
+		os.execute( "pianobar &> /dev/null &" )
+		if shouldSetStation then socket.sleep( 3 ); self:WriteFIFO( "0" ) end	-- Start Quickmix at the station, since it is the first run
 	end
 end
 
@@ -141,12 +155,12 @@ function Pianobar:WriteUsernamePassword( username, password )
 	for key, value in pairs( self.config ) do
 		res = ("%s%s = %s\n"):format( res, key, value )
 	end
-	self:Trace( "res =", res )
+	self:Trace( "Wrote username and password" )
 
 	f:write( res )
 	f:close()
 
-	self:Start()
+	self:Start( true )
 end
 
 function Pianobar:GetStations()

@@ -32,7 +32,7 @@ $(document).ready(function() {
 		var password = $('#password').val();
 
 		// Do something with the username and password
-		var url = "/rest/signin"
+		var url = "/remodora/rest/signin"
 		//var url = "/rest/signin?user=" + username + "&pass=" + password;
 
 		$.post( url, { user: username, pass: password } );
@@ -41,6 +41,8 @@ $(document).ready(function() {
 		{
 			$('#mask').remove();
 		} );
+
+		//location.reload(true);
 
 		return false;
 	} );

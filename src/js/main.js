@@ -9,7 +9,7 @@ $(document).ready( function()
 	var love = $("img.love");
 
 	window.setInterval(function(){
-	   $.getJSON( "/rest/songinfo", function( data )
+	   $.getJSON( "/remodora/rest/songinfo", function( data )
 		{
 			//console.log( data );
 			var ratingChanged = false;

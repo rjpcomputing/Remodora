@@ -30,7 +30,7 @@ require( "pl.strict" ); orbit = false;
 -- Orbiter
 local orbiter	= require( "orbiter" )
 local html		= require( "orbiter.html" )
-local jq		= require( "orbiter.libs.jquery" )
+--local jq		= require( "orbiter.libs.jquery" )
 
 -- Pianobar
 local Pianobar		= require( "pianobar" )
@@ -45,11 +45,14 @@ end
 --
 -- Create the app instance
 local Remodora = orbiter.new( html )
-local h1, h2, h3, p, div, class, id, a, img, span, ul, ol, li, meta, form, label, button, input, fieldset =
-	html.tags( "h1, h2, h3, p, div, class, id, a, img, span, ul, ol, li, meta, form, label, button, input, fieldset" )
+local h1, h2, h3, p, div, class, id, a, img, span, ul, ol, li, meta, form, label, button, input, fieldset, script =
+	html.tags( "h1, h2, h3, p, div, class, id, a, img, span, ul, ol, li, meta, form, label, button, input, fieldset, script" )
 
 Remodora._APPNAME = "Remodora"
-Remodora._VERSION = "1.0"
+Remodora._VERSION = "1.1"
+
+-- Make namespace
+orbiter.set_root( Remodora._APPNAME:lower() )
 
 function Remodora:InitializePianobar()
 	self.pianobar = Pianobar( true )
@@ -57,8 +60,8 @@ end
 
 -- Layout function makes the file have a template that all
 -- functions will call to get the base functionality from.
-function Remodora:Layout( page )
-	local scripts = { "/js/toastr.js" }
+function Remodora:Layout( web, page )
+	local scripts = { "/js/jquery-1.8.3.min.js", "/js/toastr.js" }
 	for _, val in ipairs( page.scripts or {} ) do table.insert( scripts, val ) end
 	local styles = { "/css/style.css", "/css/toastr.css", "/css/toastr-responsive.css" }
 	for _, val in ipairs( page.styles or {} ) do table.insert( styles, val ) end
@@ -79,7 +82,7 @@ function Remodora:Layout( page )
 			{
 				id = "login-box",
 				class = "login-popup",
-				a { href = "#", class = "close", img{ src = "images/close_pop.png", class = "btn_close", title = "Close Window", alt = "Close" } },
+				a { href = "#", class = "close", img { src = web:link( "/images/close_pop.png" ), class = "btn_close", title = "Close Window", alt = "Close" } },
 				form
 				{
 					method = "post", class = "signin", action = "signin",
@@ -111,8 +114,8 @@ function Remodora:Layout( page )
 					class = "right",
 					ul
 					{
-						li { html.link { "#login-box", "Pandora Login", class = "login-window" } },
-						li { html.link { "#", "", title = "Stop Pandora", class = "stop-pandora", onclick = "$.get('/rest/action/q')" } },
+						li { a { href = "#login-box", "Pandora Login", class = "login-window" } },
+						li { html.link { "/#", "", title = "Stop Pandora", class = "stop-pandora", onclick = "$.get('%s')" % web:link( "/rest/action/q" ) } },
 					},
 				},
 			},
@@ -123,11 +126,11 @@ function Remodora:Layout( page )
 				{
 					class = "toolbar",
 					li { html.link { "/stations", "", title = "Change Station", class = "change-stations" } },
-					li { html.link { "#", "", title = "Play/Pause", onclick = "$.get( '/rest/action/p' );$(this).toggleClass( 'controls-play controls-pause' );", class = "controls-pause" } },
-					li { html.link { "#", "", title = "Next", onclick = "$.get( '/rest/action/n' )", class = "controls-next" } },
-					li { html.link { "#", "", title = "Love", onclick = "$.get( '/rest/action/+' )", class = "controls-love" } },
-					li { html.link { "#", "", title = "Ban", onclick = "$.get( '/rest/action/-' )", class = "controls-ban" } },
-					li { html.link { "#", "", title = "Tired", onclick = "$.get( '/rest/action/t' )", class = "controls-tired" } },
+					li { html.link { "/#", "", title = "Play/Pause", onclick = "$.get( '%s' );$(this).toggleClass( 'controls-play controls-pause' );" % web:link( "/rest/action/p" ), class = "controls-pause" } },
+					li { html.link { "/#", "", title = "Next", onclick = "$.get( '%s' )" % web:link( "/rest/action/n" ), class = "controls-next" } },
+					li { html.link { "/#", "", title = "Love", onclick = "$.get( '%s' )" % web:link( "/rest/action/+" ), class = "controls-love" } },
+					li { html.link { "/#", "", title = "Ban", onclick = "$.get( '/rest/action/-' )" % web:link( "/rest/action/-" ), class = "controls-ban" } },
+					li { html.link { "/#", "", title = "Tired", onclick = "$.get( '/rest/action/t' )" % web:link( "/rest/action/t" ), class = "controls-tired" } },
 				},
 			},
 			div { id = "content", page.content },
@@ -136,10 +139,8 @@ function Remodora:Layout( page )
 end
 
 function Remodora:Index( web )
-	-- Make sure pianobar is running, if not start it
-	if not self.pianobar:IsRunning() then
-		self.pianobar:Start()
-	end
+	-- Make sure pianobar is running
+	self.pianobar:Start()
 
 	local script = nil
 	if self.pianobar.isFirstRun then
@@ -162,14 +163,14 @@ function Remodora:Index( web )
 		self.pianobar.isFirstRun = false
 	end
 
-	return self:Layout
+	return self:Layout( web,
 	{
 		scripts = { "/js/login.js", "/js/main.js" },
 		inline_script = script,
 		content =
 		{
-			img { class = "albumart shadow", src = "../images/song.png" },
-			img { class = "love", style = "display: none;", src = "../images/love_song.48x48.png" },
+			img { class = "albumart shadow", src = web:link( "/images/song.png" ) },
+			img { class = "love", style = "display: none;", src = web:link( "/images/love_song.48x48.png" ) },
 			div
 			{
 				class = "songdetails",
@@ -178,7 +179,7 @@ function Remodora:Index( web )
 				div { "from ", h2 { class = "album", "" } },
 			}
 		}
-	}
+	} )
 end
 
 function Remodora:Signin( web )
@@ -204,7 +205,7 @@ function Remodora:Stations( web )
 		stationLinks[1 + #stationLinks] = { "/station/%i" % (idx - 1), val }
 	end
 
-	return self:Layout
+	return self:Layout( web,
 	{
 		title = ("%s v%s - Stations"):format( self._APPNAME, self._VERSION ),
 		content =
@@ -216,7 +217,7 @@ function Remodora:Stations( web )
 				data = stationLinks
 			}
 		}
-	}
+	} )
 end
 
 function Remodora:ChangeStation( web, station )
