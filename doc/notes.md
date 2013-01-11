@@ -1,3 +1,5 @@
+## Raspberry Pi Pianobar Setup
+
 ### Pianobar
 
 * 12/14/2012 - Needs to be built from source for stability.
@@ -9,6 +11,8 @@
 		`$ make`
 
 ### Fix Pop Between Tracks
+
+These are instructions to get rid of the pops between tracks when using analog audio on the Raspberry Pi.
 
 * Make libao use Pulse Audio
 
