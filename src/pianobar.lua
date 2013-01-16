@@ -7,7 +7,11 @@
 --	Notes:
 --
 --	Revisions:
---		0.0 - Initial placeholder
+--		1.0 (01/01/2013) - Initial placeholder
+--		1.1 (01/08/2013) - Put in checks for if pianobar is running before
+--		                   making action
+--		                 - Changed the check for pianobar running to not output
+--		                   to the terminal
 -- ----------------------------------------------------------------------------
 -- Socket for sleep
 local socket		= require( "socket" )
@@ -39,9 +43,7 @@ function Pianobar:WriteFIFO( command )
 		local f = io.output( self.fifoPath )
 		f:write( ("%s\n"):format( command ) )
 		f:close()
-
---		f = nil
---		collectgarbage()
+		self:Trace( "action:", command )
 	else
 		error( ("pianobar not running. Can't execute command %q"):format( command ) )
 	end

@@ -49,7 +49,7 @@ local h1, h2, h3, p, div, class, id, a, img, span, ul, ol, li, meta, form, label
 	html.tags( "h1, h2, h3, p, div, class, id, a, img, span, ul, ol, li, meta, form, label, button, input, fieldset, script" )
 
 Remodora._APPNAME = "Remodora"
-Remodora._VERSION = "1.1"
+Remodora._VERSION = "1.2"
 
 -- Make namespace
 orbiter.set_root( Remodora._APPNAME:lower() )
@@ -115,7 +115,7 @@ function Remodora:Layout( web, page )
 					ul
 					{
 						li { a { href = "#login-box", "Pandora Login", class = "login-window" } },
-						li { html.link { "/#", "", title = "Stop Pandora", class = "stop-pandora", onclick = "$.get('%s')" % web:link( "/rest/action/q" ) } },
+						li { html.link { "/#", "", title = "Stop Pandora", class = "stop-pandora", onclick = ("$.get('%s')"):format( web:link( "/rest/action/q" ) ) } },
 					},
 				},
 			},
@@ -126,11 +126,11 @@ function Remodora:Layout( web, page )
 				{
 					class = "toolbar",
 					li { html.link { "/stations", "", title = "Change Station", class = "change-stations" } },
-					li { html.link { "/#", "", title = "Play/Pause", onclick = "$.get( '%s' );$(this).toggleClass( 'controls-play controls-pause' );" % web:link( "/rest/action/p" ), class = "controls-pause" } },
-					li { html.link { "/#", "", title = "Next", onclick = "$.get( '%s' )" % web:link( "/rest/action/n" ), class = "controls-next" } },
-					li { html.link { "/#", "", title = "Love", onclick = "$.get( '%s' )" % web:link( "/rest/action/+" ), class = "controls-love" } },
-					li { html.link { "/#", "", title = "Ban", onclick = "$.get( '/rest/action/-' )" % web:link( "/rest/action/-" ), class = "controls-ban" } },
-					li { html.link { "/#", "", title = "Tired", onclick = "$.get( '/rest/action/t' )" % web:link( "/rest/action/t" ), class = "controls-tired" } },
+					li { html.link { "/#", "", title = "Play/Pause", onclick = ("$.get( '%s' );$(this).toggleClass( 'controls-play controls-pause' );"):format( web:link( "/rest/action/p" ) ), class = "controls-pause" } },
+					li { html.link { "/#", "", title = "Next", onclick = ("$.get( '%s' )"):format( web:link( "/rest/action/n" ) ), class = "controls-next" } },
+					li { html.link { "/#", "", title = "Love", onclick = ("$.get( '%s' )"):format( web:link( "/rest/action/+" ) ), class = "controls-love" } },
+					li { html.link { "/#", "", title = "Ban", onclick = ("$.get( '%s' )"):format( web:link( "/rest/action/-" ) ), class = "controls-ban" } },
+					li { html.link { "/#", "", title = "Tired", onclick = ("$.get( '%s' )"):format( web:link( "/rest/action/t" ) ), class = "controls-tired" } },
 				},
 			},
 			div { id = "content", page.content },
@@ -140,7 +140,7 @@ end
 
 function Remodora:Index( web )
 	-- Make sure pianobar is running
-	self.pianobar:Start()
+	self.pianobar:Start(true)
 
 	local script = nil
 	if self.pianobar.isFirstRun then
@@ -202,7 +202,7 @@ function Remodora:Stations( web )
 	local stationLinks = {}
 	-- Convert them to links for switching
 	for idx, val in ipairs( stations ) do
-		stationLinks[1 + #stationLinks] = { "/station/%i" % (idx - 1), val }
+		stationLinks[1 + #stationLinks] = { ("/station/%i"):format( idx - 1 ), val }
 	end
 
 	return self:Layout( web,

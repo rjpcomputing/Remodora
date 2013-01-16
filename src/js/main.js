@@ -28,7 +28,17 @@ $(document).ready( function()
 					title.text( data.title );
 					artist.text( data.artist );
 					album.text( data.album );
-					$("img.albumart").attr( "src", data.coverArt );
+					if ( data.coverArt )
+					{
+						// pandora.com has album art
+						$("img.albumart").attr( "src", data.coverArt );
+					}
+					else
+					{
+						// pandora.com did not have album art
+						$("img.albumart").attr( "src", "/remodora/images/song.png" );
+					}
+
 					if ( data.rating == 1 )
 					{
 						$("img.love").show();

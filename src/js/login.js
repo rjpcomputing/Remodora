@@ -33,7 +33,7 @@ $(document).ready(function() {
 
 		// Do something with the username and password
 		var url = "/remodora/rest/signin"
-		//var url = "/rest/signin?user=" + username + "&pass=" + password;
+		//var url = "/remodora/rest/signin?user=" + username + "&pass=" + password;
 
 		$.post( url, { user: username, pass: password } );
 
