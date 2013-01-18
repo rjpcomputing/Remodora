@@ -92,6 +92,7 @@ function Pianobar:_init( shouldLog )
 		#password_command = gpg --decrypt ~/passwordusername = user
 		#volume = 0
 		sort = quickmix_10_name_az
+		audio_quality = high
 		event_command = $eventcommand
 		fifo = $fifo
 		tls_fingerprint = 2D0AFDAFA16F4B5C0A43F3CB1D4752F9535507C0]] % { eventcommand = self.eventCommandPath, fifo = self.fifoPath }
