@@ -11,7 +11,6 @@
 --		0.0 - Initial placeholder
 -- ----------------------------------------------------------------------------
 package.path = package.path .. ";./?/init.lua"	-- Add 'init.lua' loading to the current directory
-local lfs			= require( "lfs" )
 local json			= require( "json" )
 -- Penlight
 local appSupport	= require( "pl.app" )
@@ -45,11 +44,11 @@ end
 --
 -- Create the app instance
 local Remodora = orbiter.new( html )
-local h1, h2, h3, p, div, class, id, a, img, span, ul, ol, li, meta, form, label, button, input, fieldset, script =
-	html.tags( "h1, h2, h3, p, div, class, id, a, img, span, ul, ol, li, meta, form, label, button, input, fieldset, script" )
+local h1, h2, h3, p, div, a, img, span, ul, ol, li, meta, form, label, button, input, fieldset, script =
+	html.tags( "h1, h2, h3, p, div, a, img, span, ul, ol, li, meta, form, label, button, input, fieldset, script" )
 
 Remodora._APPNAME = "Remodora"
-Remodora._VERSION = "1.2"
+Remodora._VERSION = "1.3-devel"
 
 -- Make namespace
 orbiter.set_root( Remodora._APPNAME:lower() )
@@ -61,7 +60,7 @@ end
 -- Layout function makes the file have a template that all
 -- functions will call to get the base functionality from.
 function Remodora:Layout( web, page )
-	local scripts = { "/js/jquery-1.8.3.min.js", "/js/toastr.js" }
+	local scripts = { "/js/jquery-1.8.3.min.js", "/js/toastr.js", "/js/mousetrap.min.js" }
 	for _, val in ipairs( page.scripts or {} ) do table.insert( scripts, val ) end
 	local styles = { "/css/style.css", "/css/toastr.css", "/css/toastr-responsive.css" }
 	for _, val in ipairs( page.styles or {} ) do table.insert( styles, val ) end
@@ -111,9 +110,21 @@ function Remodora:Layout( web, page )
 				div
 				{
 					id = "dock",
+					class = "left",
+					ul
+					{
+						li { html.link { "/#", "", title = "Volume Down", class = "volume-down", onclick = ("$.get('%s')"):format( web:link( "/rest/action/(" ) ) } },
+						li { html.link { "/#", "", title = "Volume Up", class = "volume-up", onclick = ("$.get('%s')"):format( web:link( "/rest/action/)" ) ) } },
+					},
+				},
+				div
+				{
+					id = "dock",
 					class = "right",
 					ul
 					{
+--						li { html.link { "/#", "", title = "Volume Down", class = "volume-down", onclick = ("$.get('%s')"):format( web:link( "/rest/action/(" ) ) } },
+--						li { html.link { "/#", "", title = "Volume Up", class = "volume-up", onclick = ("$.get('%s')"):format( web:link( "/rest/action/)" ) ) } },
 						li { a { href = "#login-box", "Pandora Login", class = "login-window" } },
 						li { html.link { "/#", "", title = "Stop Pandora", class = "stop-pandora", onclick = ("$.get('%s')"):format( web:link( "/rest/action/q" ) ) } },
 					},
@@ -140,7 +151,7 @@ end
 
 function Remodora:Index( web )
 	-- Make sure pianobar is running
-	self.pianobar:Start(true)
+	self.pianobar:Start()
 
 	local script = nil
 	if self.pianobar.isFirstRun then

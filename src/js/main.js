@@ -3,6 +3,15 @@ $(document).ready( function()
 	//toastr.info('Are you the 6 fingered man?');
 	//toastr.error('Another message');
 
+	// Setup keyboard shortcuts
+	Mousetrap.bind( ["p", "space"], function() { $.get( "/remodora/rest/action/p" ) } );
+	Mousetrap.bind( "n", function() { $.get( "/remodora/rest/action/n" ); } );
+	Mousetrap.bind( "l", function() { $.get( "/remodora/rest/action/+" ); } );
+	Mousetrap.bind( "b", function() { $.get( "/remodora/rest/action/-" ); } );
+	Mousetrap.bind( "t", function() { $.get( "/remodora/rest/action/t" ); } );
+	Mousetrap.bind( "down", function() { $.get( "/remodora/rest/action/(" ); } );
+	Mousetrap.bind( "up", function() { $.get( "/remodora/rest/action/)" ); } );
+
 	var title = $("h2.title");
 	var artist = $("h2.artist");
 	var album = $("h2.album");

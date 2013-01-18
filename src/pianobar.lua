@@ -45,7 +45,7 @@ function Pianobar:WriteFIFO( command )
 		f:close()
 		self:Trace( "action:", command )
 	else
-		error( ("pianobar not running. Can't execute command %q"):format( command ) )
+		self:Trace( ("ERROR: pianobar not running. Can't execute command %q"):format( command ) )
 	end
 end
 
@@ -90,7 +90,7 @@ function Pianobar:_init( shouldLog )
 		password = password
 		# or
 		#password_command = gpg --decrypt ~/passwordusername = user
-		volume = 0
+		#volume = 0
 		sort = quickmix_10_name_az
 		event_command = $eventcommand
 		fifo = $fifo

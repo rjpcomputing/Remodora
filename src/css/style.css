@@ -92,25 +92,26 @@ ul.toolbar li a
 #dock
 {
 	height: 25px;
-	float: right;
-	/*position: absolute;*/
+	position: absolute;
 	top: 0;
-	right: 2px;
+	/*float: right;*/
 }
 
-#dock .left
+#dock.left
 {
     float: left;
-    width: 3px;
-    height: 25px;
+	left: 2px;
+    /*height: 25px;*/
+    /*width: 3px;*/
     /*background: url('../images/dock.png') no-repeat left top;*/
 }
 
-#dock .right
+#dock.right
 {
     float: left;
-    width: 3px;
-    height: 25px;
+	right: 2px;
+    /*height: 25px;*/
+    /*width: 3px;*/
     /*background: url('../images/dock.png') no-repeat right top;*/
 }
 
@@ -253,6 +254,22 @@ form.signin input::-webkit-input-placeholder { color:#bbb; text-shadow:0 0 2px #
 .stop-pandora
 {
 	background: url( "../images/halt.22x22.png" ) no-repeat center center;
+	width: 22px;
+	height: 22px;
+	padding: 0px;
+}
+
+.volume-up
+{
+	background: url( "../images/volume_up.22x22.png" ) no-repeat center center;
+	width: 22px;
+	height: 22px;
+	padding: 0px;
+}
+
+.volume-down
+{
+	background: url( "../images/volume_down.22x22.png" ) no-repeat center center;
 	width: 22px;
 	height: 22px;
 	padding: 0px;
