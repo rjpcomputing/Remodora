@@ -43,7 +43,7 @@ function Pianobar:WriteFIFO( command )
 		local f = io.output( self.fifoPath )
 		f:write( ("%s\n"):format( command ) )
 		f:close()
-		self:Trace( "action:", command )
+		--self:Trace( "action:", command )
 	else
 		self:Trace( ("ERROR: pianobar not running. Can't execute command %q"):format( command ) )
 	end
