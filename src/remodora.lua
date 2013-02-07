@@ -48,7 +48,7 @@ local h1, h2, h3, p, div, a, img, span, ul, ol, li, meta, form, label, button, i
 	html.tags( "h1, h2, h3, p, div, a, img, span, ul, ol, li, meta, form, label, button, input, select, option, fieldset, link, script" )
 
 Remodora._APPNAME = "Remodora"
-Remodora._VERSION = "1.4"
+Remodora._VERSION = "1.5-dev"
 
 -- Make namespace
 orbiter.set_root( Remodora._APPNAME:lower() )
