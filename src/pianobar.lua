@@ -63,6 +63,15 @@ function Pianobar:ReadConfig( configPath )
 	end
 end
 
+function Pianobar:GetCurrentDetails()
+	local songInfoPath = path.join( self.configDir, "current_details.json" )
+	if path.exists( songInfoPath ) then
+		return json.decode( io.input( songInfoPath ):read( "*a" ) )
+	else
+		error( "No current song information found. This may be due to pianobar not running" )
+	end
+end
+
 --- Contructor
 -- @param shouldLog {boolean} If true, trace logging to the terminal
 -- @returns pianobar object
@@ -167,15 +176,28 @@ function Pianobar:WriteUsernamePassword( username, password )
 end
 
 function Pianobar:GetStations()
-	local stationsPath = path.join( self.configDir, "stations.json" )
-
-	if path.exists( stationsPath ) then
-		local ret = json.decode( io.input( stationsPath ):read( "*a" ) )
-
-		return ret
-	else
-		error( "No stations found. This may be due to pianobar not running" )
+	local details = self:GetCurrentDetails()
+	local stations = {}
+	for i = 0, details.stationCount do
+		stations[1 + #stations] = details["station" .. i]
 	end
+
+	return stations
+end
+
+function Pianobar:GetSongInfo()
+	local details = self:GetCurrentDetails()
+
+	return
+	{
+		stationName	= details.stationName,
+		artist		= details.artist,
+		album		= details.album,
+		title		= details.title,
+		coverArt	= details.coverArt,
+		rating		= details.rating,
+		detailUrl	= details.detailUrl,
+	}
 end
 
 function Pianobar:Play()
@@ -206,29 +228,10 @@ function Pianobar:ChangeStation( station )
 	self:WriteFIFO( "s" .. station )
 end
 
-function Pianobar:GetSongInfo()
-	local songInfoPath = path.join( self.configDir, "currentSong.json" )
-
-	if path.exists( songInfoPath ) then
-		local allInfo = json.decode( io.input( songInfoPath ):read( "*a" ) )
-
-		return
-		{
-			stationName	= allInfo.stationName,
-			artist		= allInfo.artist,
-			album		= allInfo.album,
-			title		= allInfo.title,
-			coverArt	= allInfo.coverArt,
-			rating		= allInfo.rating,
-			detailUrl	= allInfo.detailUrl,
-		}
-	else
-		error( "No current song information found. This may be due to pianobar not running" )
-	end
-end
-
 function Pianobar:Quit()
 	self:WriteFIFO( "q" )
+	-- Delete the current details so that the image and details go back to default
+	os.remove( path.join( self.configDir, "current_details.json" ) )
 	self:Trace( "Quit" )
 	-- We tried nicely, now it is time to KILL!
 	if self:IsRunning() then

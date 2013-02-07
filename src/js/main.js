@@ -15,12 +15,13 @@ $(document).ready( function()
 	var title = $("h2.title");
 	var artist = $("h2.artist");
 	var album = $("h2.album");
+	var station = $("h2.station");
 	var love = $("img.love");
 
-	window.setInterval(function(){
+	window.setInterval( function()
+	{
 	   $.getJSON( "/remodora/rest/songinfo", function( data )
 		{
-			//console.log( data );
 			var ratingChanged = false;
 			if ( !love.is( ":visible" ) && data.rating == 1 )
 			{
@@ -37,6 +38,7 @@ $(document).ready( function()
 					title.text( data.title );
 					artist.text( data.artist );
 					album.text( data.album );
+					station.text( data.stationName );
 					if ( data.coverArt )
 					{
 						// pandora.com has album art

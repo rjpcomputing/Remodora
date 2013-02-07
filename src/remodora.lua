@@ -44,11 +44,11 @@ end
 --
 -- Create the app instance
 local Remodora = orbiter.new( html )
-local h1, h2, h3, p, div, a, img, span, ul, ol, li, meta, form, label, button, input, fieldset, script =
-	html.tags( "h1, h2, h3, p, div, a, img, span, ul, ol, li, meta, form, label, button, input, fieldset, script" )
+local h1, h2, h3, p, div, a, img, span, ul, ol, li, meta, form, label, button, input, combo, option, fieldset, link, script =
+	html.tags( "h1, h2, h3, p, div, a, img, span, ul, ol, li, meta, form, label, button, input, select, option, fieldset, link, script" )
 
 Remodora._APPNAME = "Remodora"
-Remodora._VERSION = "1.3-devel"
+Remodora._VERSION = "1.4-devel"
 
 -- Make namespace
 orbiter.set_root( Remodora._APPNAME:lower() )
@@ -60,10 +60,15 @@ end
 -- Layout function makes the file have a template that all
 -- functions will call to get the base functionality from.
 function Remodora:Layout( web, page )
-	local scripts = { "/js/jquery-1.8.3.min.js", "/js/toastr.js", "/js/mousetrap.min.js" }
+	local scripts = { "/js/jquery-1.8.3.min.js", "/js/toastr.js", "/js/mousetrap.min.js", "/js/jquery.dropdown.js" }
 	for _, val in ipairs( page.scripts or {} ) do table.insert( scripts, val ) end
-	local styles = { "/css/style.css", "/css/toastr.css", "/css/toastr-responsive.css" }
+	local styles = { "/css/style.css", "/css/toastr.css", "/css/toastr-responsive.css", "/css/jquery.dropdown.css" }
 	for _, val in ipairs( page.styles or {} ) do table.insert( styles, val ) end
+
+	local stationLinks = {}
+	for idx, val in ipairs( self.pianobar:GetStations() ) do
+		stationLinks[1 + #stationLinks] = { ("/station/%i"):format( idx - 1 ), val }
+	end
 
 	return html
 	{
@@ -136,7 +141,7 @@ function Remodora:Layout( web, page )
 				ul
 				{
 					class = "toolbar",
-					li { html.link { "/stations", "", title = "Change Station", class = "change-stations" } },
+					li { a { href = web:link("/#"), ["data-dropdown"] = "#stations", title = "Change Station", class = "change-stations", "" } },
 					li { html.link { "/#", "", title = "Play/Pause", onclick = ("$.get( '%s' );$(this).toggleClass( 'controls-play controls-pause' );"):format( web:link( "/rest/action/p" ) ), class = "controls-pause" } },
 					li { html.link { "/#", "", title = "Next", onclick = ("$.get( '%s' )"):format( web:link( "/rest/action/n" ) ), class = "controls-next" } },
 					li { html.link { "/#", "", title = "Love", onclick = ("$.get( '%s' )"):format( web:link( "/rest/action/+" ) ), class = "controls-love" } },
@@ -145,6 +150,17 @@ function Remodora:Layout( web, page )
 				},
 			},
 			div { id = "content", page.content },
+			div
+			{
+				id = "stations",
+				class = "dropdown dropdown-tip",
+				html.list
+				{
+					class = "dropdown-menu",
+					render = html.link,
+					data = stationLinks
+				},
+			},
 		},
 	}
 end
@@ -188,6 +204,7 @@ function Remodora:Index( web )
 				h2 { class = "title", "Loading..." },
 				div { "by ", h2 { class = "artist", "" } },
 				div { "from ", h2 { class = "album", "" } },
+				div { "on ", h2 { class = "station", "" } },
 			}
 		}
 	} )
@@ -205,30 +222,6 @@ function Remodora:Signin( web )
 
 		return json.encode( { true, "OK" } )
 	end
-end
-
-function Remodora:Stations( web )
-	local stations = self.pianobar:GetStations()
-
-	local stationLinks = {}
-	-- Convert them to links for switching
-	for idx, val in ipairs( stations ) do
-		stationLinks[1 + #stationLinks] = { ("/station/%i"):format( idx - 1 ), val }
-	end
-
-	return self:Layout( web,
-	{
-		title = ("%s v%s - Stations"):format( self._APPNAME, self._VERSION ),
-		content =
-		{
-			h2 ( "Stations" ),
-			html.list
-			{
-				render = html.link,
-				data = stationLinks
-			}
-		}
-	} )
 end
 
 function Remodora:ChangeStation( web, station )
@@ -251,7 +244,6 @@ end
 
 -- Initialize the routes
 Remodora:dispatch_get( Remodora.Index, "/", "/index.html" )
-Remodora:dispatch_get( Remodora.Stations, "/stations" )
 Remodora:dispatch_get( Remodora.ChangeStation, "/station/(.+)" )
 Remodora:dispatch_get( Remodora.Action, "/rest/action/(.+)" )
 Remodora:dispatch_get( Remodora.GetSongInfo, "/rest/songinfo" )

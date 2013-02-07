@@ -13,21 +13,11 @@ for line in io.stdin:lines() do
 	details[lineDetails[1]] = lineDetails[2]
 end
 
-if "songstart" == event then
-	io.output( path.join( out, "currentSong.json" ) ):write( json.encode( details ) )
-elseif "songlove" == event then
+if "songlove" == event then
 	-- Change the current songs rating
 	details.rating = 1
-	io.output( path.join( out, "currentSong.json" ) ):write( json.encode( details ) )
-	io.output( path.join( out, "message" ) ):write( "Loved" )
-elseif "songban" == event then
-	io.output( path.join( out, "message" ) ):write( "Banned" )
-elseif "songshelf" == event then
-	io.output( path.join( out, "message" ) ):write( "Tired" )
-elseif "usergetstations" == event then
-	local stations = {}
-	for i = 0, details.stationCount do
-		stations[1 + #stations] = details["station" .. i]
-	end
-	io.output( path.join( out, "stations.json" ) ):write( json.encode( stations ) )
 end
+
+-- Write current details out for every event
+io.output( path.join( out, "current_details.json" ) ):write( json.encode( details ) )
+
