@@ -24,7 +24,7 @@ a:hover { text-decoration: underline; }
 #content h2.album { font-style: italic; display: inline; }
 #content h2.station { font-weight:bold; display: inline; }
 #content img.albumart { width:300px; height:300px; display: block; margin: 5px auto; }
-#content img.love { position:absolute; top: 348px; left: 255px; z-index: 3; }
+#content img.love { position: relative; left: 50%; margin-top: -52px; margin-left: 100px; z-index: 3; }
 
 .songdetails { margin-left: 5px; }
 .shadow
@@ -38,29 +38,26 @@ a:hover { text-decoration: underline; }
 	filter: progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#000000');
 }
 
-#controls1
+#controls
 {
-	background: #4E4E4E;
-	border-top: 1px solid #747474;
+	background: url( "../images/controls.png" ) transparent;
+//	width: 100%;
+//	background: #4E4E4E;
+//	border-top: 1px solid #747474;
 	/*border-bottom: 1px solid #747474;*/
-	height: 60px;
-	padding:0px;
-	margin: 0px;
+//	height: 60px;
+//	padding:0px;
+//	margin: 0px;
 }
 
 ul.toolbar
 {
-	background: url( "../images/controls.png" ) transparent;
-	/*  background: #4E4E4E;
-	  border-top: 1px solid #747474;
-	  border-bottom: 1px solid #747474;*/
 	height: 64px;
-	width: 100%;
+	/*width: 100%;*/
+	width: 336px;
+	margin: 0 auto;
 	padding:0px;
 	list-style-type:none;
-	margin: 0px;				/*Makes navigation have space on the left and right*/
-	/*float: right;*/			/*Makes navigation small and to the left*/
-	/*position: absolute;*/		/*Makes navigation as small as possible*/
 }
 
 ul.toolbar li
@@ -72,7 +69,8 @@ ul.toolbar li a
 {
 	float:left;
 	cursor:pointer;
-	width:58px;
+	/*width:58px;*/
+	width:56px;
 	height:64px;
 	/*opacity: 0.6;*/
 }
@@ -154,6 +152,10 @@ ul.toolbar li a
 {
     color: #fff;
     border-bottom: 2px solid #ff9c08;
+	font-weight: bold;
+}
+.dropdown-header
+{
 	font-weight: bold;
 }
 

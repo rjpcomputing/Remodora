@@ -12,6 +12,10 @@ $(document).ready( function()
 	Mousetrap.bind( "down", function() { $.get( "/remodora/rest/action/(" ); } );
 	Mousetrap.bind( "up", function() { $.get( "/remodora/rest/action/)" ); } );
 
+	// Do a quick dropdown header on the stations dropdown
+	$("#stations ul.dropdown-menu").prepend( $("<li>").append().addClass( "dropdown-divider" ) );
+	$("#stations ul.dropdown-menu").prepend( $("<li>").append( $("<label>").append( "Stations" ) ).addClass( "dropdown-header" ) );
+
 	var title = $("h2.title");
 	var artist = $("h2.artist");
 	var album = $("h2.album");
