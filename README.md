@@ -30,6 +30,8 @@ The name is just a combination of **Remote** and **Pandora**.
 ### Debian Based Distros + Raspbian
 
 1. Install **Lua 5.1**+, **LuaRocks**, and **Pianobar**
+**NOTE**: Pianobar is old when you get it from the repository, so your results may very. Please see doc/notes.md for instructions on installing it from source.
+At this time I recommend installing it from source.
 
 	`$ sudo apt-get install lua5.1 luarocks pianobar`
 2. Install **Penlight**, **LuaJSON**, **LuaSocket**
@@ -47,7 +49,7 @@ The name is just a combination of **Remote** and **Pandora**.
 6. Copy `Orbiter` from the 'libs' directory.
 
 	`$ cp -r ../libs/Orbiter/orbiter .`
-7. Execute the `remodora.lua` and open a browser and point it at **http://your-ip:8080**.
+7. Execute the `remodora.lua` and open a browser and point it at **http://your-ip:8080/remodora**. **NOTE**: Be aware that you need the **/remodora** because I placed it in a "namespace" to allow more applications to be run from the web framework used.
 8. When it loads for the first time it will take you to the settings dialog. Fill in your Pandora username and password. Please be aware that Remodora will be managing the pianobar settings file, so if you edit it by hand it will overwrite it.
 9. Enjoy the music.
 
