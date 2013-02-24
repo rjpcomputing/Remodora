@@ -13,7 +13,10 @@
 	* Build pianobar
 
 		`$ cd pianobar`
+		
 		`$ make`
+		
+		`$ sudo make install`
 
 ### Fix Pop Between Tracks
 
