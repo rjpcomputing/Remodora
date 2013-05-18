@@ -32,3 +32,9 @@ or
 playing. You can change that behaviour by having pulseaudio not load the module "module-suspend-on-idle".
 To achieve this, delete the corresponding line from /etc/pulse/default.pa and /etc/pulse/system.pa.
 You have to restart pulseaudio for the setting to take effect. Simplest method is to reboot the pi.
+
+### Fix "ALSA lib pcm.c:2217:(snd_pcm_open_noupdate) Unknown PCM cards.pcm.front"
+
+* Change the line in `/usr/share/alsa/alsa.conf` from **pcm.front cards.pcm.front** to **pcm.front cards.pcm.default**
+
+	`$ sudo nano /usr/share/alsa/alsa.conf`
