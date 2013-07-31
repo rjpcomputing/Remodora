@@ -5,10 +5,18 @@
 * 12/14/2012 - Needs to be built from source for stability.
 	* Install needed development files
 
-		`$ sudo apt-get install libao-dev libmad0-dev libfaad-dev libgnutls-dev libjson0-dev libgcrypt11-dev`
+		`$ sudo apt-get install git libao-dev libmad0-dev libfaad-dev libgnutls-dev libjson0-dev libgcrypt11-dev`
+	* Get the pianobar source
+		
+		`$ git clone https://github.com/PromyLOPh/pianobar.git`
+	
 	* Build pianobar
 
+		`$ cd pianobar`
+		
 		`$ make`
+		
+		`$ sudo make install`
 
 ### Fix Pop Between Tracks
 
@@ -24,3 +32,9 @@ or
 playing. You can change that behaviour by having pulseaudio not load the module "module-suspend-on-idle".
 To achieve this, delete the corresponding line from /etc/pulse/default.pa and /etc/pulse/system.pa.
 You have to restart pulseaudio for the setting to take effect. Simplest method is to reboot the pi.
+
+### Fix "ALSA lib pcm.c:2217:(snd_pcm_open_noupdate) Unknown PCM cards.pcm.front"
+
+* Change the line in `/usr/share/alsa/alsa.conf` from **pcm.front cards.pcm.front** to **pcm.front cards.pcm.default**
+
+	`$ sudo nano /usr/share/alsa/alsa.conf`
