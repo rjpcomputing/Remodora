@@ -22,6 +22,9 @@
 
 These are instructions to get rid of the pops between tracks when using analog audio on the Raspberry Pi.
 
+* Install pulseadio
+        `$ sudo apt-get install pulseaudio`
+
 * Make libao use Pulse Audio
 
 	`$ echo "default_driver=pulse" > ~/.libao`
