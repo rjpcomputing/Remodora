@@ -5,7 +5,7 @@
 * 12/14/2012 - Needs to be built from source for stability.
 	* Install needed development files
 
-		`$ sudo apt-get install git libao-dev libmad0-dev libfaad-dev libgnutls-dev libjson0-dev libgcrypt11-dev`
+		`$ sudo apt-get install git libavcodec-dev libavformat-dev libavutil-dev libavfilter-dev libgnutls-dev libjson0-dev libgcrypt11-dev`
 	* Get the pianobar source
 		
 		`$ git clone https://github.com/PromyLOPh/pianobar.git`
