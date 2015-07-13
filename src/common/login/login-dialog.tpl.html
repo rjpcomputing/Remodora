@@ -1,0 +1,21 @@
+<div class="modal-header">
+	<h3 class="modal-title">Sign In</h3>
+</div>
+<div class="modal-body">
+	<form name="loginForm" novalidate>
+		<div ng-class="username ? 'has-success' : 'has-error'" class="form-group has-feedback">
+			<label for="username">Username</label>
+			<input ng-model="username" type="text" class="form-control" name="username" placeholder="Username" required>
+<!--			<span ng-class="username ? 'glyphicon-ok' : 'glyphicon-remove'" class="glyphicon form-control-feedback" aria-hidden="true"></span>-->
+		</div>
+		<div ng-class="password ? 'has-success' : 'has-error'" class="form-group has-feedback">
+			<label for="password">Password</label>
+			<input ng-model="password" type="password" class="form-control" name="password" placeholder="Password" required>
+<!--			<span ng-class="password ? 'glyphicon-ok' : 'glyphicon-remove'" class="glyphicon form-control-feedback" aria-hidden="true"></span>-->
+		</div>
+		<div class="clearfix" style="margin-top: 10px;">
+			<button ng-click="Login()" ng-disabled="loginForm.$invalid" class="btn btn-primary pull-right">Login</button>
+			<div ng-show="errorMessage" class="alert alert-danger pull-left" style="margin-bottom: 0px; padding: 10px 15px;">{{errorMessage}}</div>
+		</div>
+	</form>
+</div>
