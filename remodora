@@ -1,0 +1,12 @@
+#!/usr/bin/env luajit
+local turbo = require( "turbo" )
+
+local app = turbo.web.Application
+{
+    -- Serve static files from src/ using the route "/"
+    { "^/$", turbo.web.StaticFileHandler, "src/index.html" },
+    { "^/(.*)$", turbo.web.StaticFileHandler, "src/" },
+}
+
+app:listen( 8888 )
+turbo.ioloop.instance():start()
