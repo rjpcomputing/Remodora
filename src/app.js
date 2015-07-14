@@ -24,10 +24,7 @@
 			artist: ""
 		}
 		$scope.station = "Quickmix"
-		$scope.name = "world";
-		$scope.isCollapsed = true;
-//		$scope.currentUser = {};
-//
+
 		$scope.$on( "$stateChangeSuccess", function( event, toState, toParams, fromState, fromParams)
 		{
 			if ( angular.isDefined( toState.data.pageTitle ) )
@@ -153,10 +150,6 @@
 			restrict: "E",
 			replace: "true",
 			templateUrl: "common/player-controls.tpl.html"
-//			link: function( scope, element, attrs )
-//			{
-//
-//			}
 		};
 	} ])
 } )();

@@ -1,4 +1,4 @@
-#!/usr/bin/env lua
+#!/usr/bin/env luajit
 -- events.lua - Pianobar event output to JSON
 local json		= require( "json" )
 local stringx	= require( "pl.stringx" )

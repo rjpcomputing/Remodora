@@ -1,26 +1,27 @@
 /* Move down content because we have a fixed navbar that is 50px tall */
 body {
 /*	padding-top: 50px;*/
+	min-height:540px;
 }
 
 .navbar {
-	min-height: 56px;
+	min-height: 48px;
 }
 
 .navbar-text {
-	margin-top: 11px;
+	margin-top: 7px;
 	margin-bottom: 0px;
 }
 
 .snap-content {
 	background-color: #fff;
-	background-color: #ddd;
+	background-color: #eee;
 }
 
 .snap-drawer {
 	background-color: #444;
 	min-height: 20px;
-	padding-top: 50px;
+	padding-top: 36px;
 	padding-right: 10px;
 	padding-left: 10px;
 	background-color: #f9f9f9;
@@ -37,7 +38,7 @@ body {
 	border: 1px solid transparent;
 	border-radius: 3px;
 /*	margin-right: 20px;*/
-  margin-top: 11px;
+	margin-top: 7px;
 /*  margin-bottom: 15px;*/
 }
 
@@ -102,13 +103,6 @@ select[multiple] ~ .form-control-feedback {
 /* Make the labels not change validation color */
 .control-label { color: inherit; }
 
-/* Screen Width specific. Less than 480px wide */
-@media ( max-width: 480px ) {
-	.issue-header {
-		padding-right: inherit;
-	}
-}
-
 /* Landscape phone */
 @media ( min-width: 415px ) {
 	#landscape-controls {
@@ -130,12 +124,21 @@ select[multiple] ~ .form-control-feedback {
 }
 
 #landscape-controls p,
-#portrait-controls p {
+#landscape-controls div {
 	padding-left: 10px;
-	margin: 0px;
+}
+
+#portrait-controls .btn-group {
+	padding-top: 5px;
+}
+
+#landscape-controls p,
+#portrait-controls p {
+	margin: 2px;
+	font-size: 1.8em;
 }
 
 #landscape-controls p>strong,
 #portrait-controls p>strong {
-	font-size: 1.5em;
+	font-size: 1.1em;
 }
