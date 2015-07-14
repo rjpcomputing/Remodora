@@ -36,21 +36,19 @@
 				<span class="icon-bar"></span>
 			</button>
 			<div class="container-fluid">
-				<p class="navbar-text"><strong>{{station}}</strong></p>
+				<p class="navbar-text"><strong>{{currentStation}}</strong></p>
 			</div>
 		</nav>
 		<snap-drawer>
 			<h4>Stations</h4>
 			<input ng-model="stationFilter" type="text" class="form-control" placeholder="Filter" style="margin-bottom: 2px;"/>
 			<div class="list-group">
-				<a href="#" class="list-group-item active">Cras justo odio</a>
-				<a href="#" class="list-group-item">Dapibus ac facilisis in</a>
-				<a href="#" class="list-group-item">Morbi leo risus</a>
+				<a ng-repeat="station in stations | filter: stationFilter" ng-click="ChangeStation( $index )" ng-class="station == currentStation ? 'active' : ''" class="list-group-item clickable">{{station}}</a>
 			</div>
 			<h4>Options</h4>
 			<div class="list-group">
-				<a ui-sref="sign-in" class="list-group-item"><i class="fa fa-sign-in fa-fw"></i>&nbsp; Pandora Sign-in</a>
-				<a ui-sref="power-off" class="list-group-item"><i class="fa fa-power-off fa-fw"></i>&nbsp; Power Off</a>
+				<a ng-click="Signin()" class="list-group-item clickable"><i class="fa fa-sign-in fa-fw"></i>&nbsp; Pandora Sign-in</a>
+				<a ng-click="PowerOff()" class="list-group-item clickable"><i class="fa fa-power-off fa-fw"></i>&nbsp; Power Off</a>
 			</div>
 		</snap-drawer>
 		<snap-content snap-options="opts">

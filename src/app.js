@@ -3,14 +3,14 @@
 	var appVersion = "2.0-dev";
 	var userCookieName = "user";
 //"Remodora.Login",
-	angular.module( "RemodoraApp", ["ui.router", "ui.bootstrap", "snap"] )
+	angular.module( "RemodoraApp", ["ui.router", "ui.bootstrap", "snap", "Remodora.Services"] )
 	.config( ["$stateProvider", "$urlRouterProvider", function ( $stateProvider, $urlRouterProvider )
 	{
 		$urlRouterProvider.otherwise( "/" );
 	} ])
 
-	.controller( "AppCtrl", [ "$scope", "$location", "$modal", "$state", //"Users",
-	function ( $scope, $location, $modal, $state ) //, Users )
+	.controller( "AppCtrl", [ "$scope", "$location", "$modal", "$state", "Pianobar",
+	function ( $scope, $location, $modal, $state, Pianobar )
 	{
 		$scope.version = appVersion;
 		$scope.opts =
@@ -23,7 +23,8 @@
 			album: "",
 			artist: ""
 		}
-		$scope.station = "Quickmix"
+		$scope.stations = ["Quickmix", "Christian Metal Radio", "Dance Radio"];
+		$scope.currentStation = "Quickmix";
 
 		$scope.$on( "$stateChangeSuccess", function( event, toState, toParams, fromState, fromParams)
 		{
@@ -39,34 +40,73 @@
 
 		$scope.Play = function()
 		{
-			$state.go( "play" );
+			console.log( "play" );
+			Pianobar.play();
 		}
 
 		$scope.Pause = function()
 		{
-			$state.go( "pause" );
+			console.log( "pause" );
+			Pianobar.pause();
 		}
 
 		$scope.Next = function()
 		{
-			$state.go( "next" );
+			console.log( "next" );
+			Pianobar.next();
 		}
 
 		$scope.ThumbUp = function()
 		{
-			$state.go( "thumb-up" );
+			console.log( "thumb-up" );
+			Pianobar.thumbup();
 		}
 
 		$scope.ThumbDown = function()
 		{
-			$state.go( "thumb-down" );
+			console.log( "thumb-down" );
+			Pianobar.thumbdown();
 		}
 
 		$scope.Tired = function()
 		{
-			$state.go( "tired" );
+			console.log( "tired" );
+			Pianobar.tired();
 		}
-
+		
+		$scope.SongDetails = function()
+		{
+			console.log( "songdetails" );
+			$scope.song = Pianobar.songdetails();
+		}
+		
+		$scope.Stations = function()
+		{
+			console.log( "stations" );
+			$scope.stations = Pianobar.stations();
+		}
+		
+		$scope.ChangeStation = function( station )
+		{
+			console.log( "changestation", station );
+			Pianobar.changestation( { id: station } );
+		}
+		
+		$scope.Signin = function()
+		{
+			console.log( "signin" );
+			Pianobar.signin();
+		}
+		
+		$scope.PowerOff = function()
+		{
+			console.log( "poweroff" );
+			Pianobar.poweroff();
+		}
+		
+//		$scope.Stations();
+//		$scope.SongDetails();
+		
 //		$scope.ShowLoginDialog = function()
 //		{
 //			var modalInstance = $modal.open(

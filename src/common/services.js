@@ -2,25 +2,18 @@ var remodoraServices = angular.module("Remodora.Services", ["ngResource"] );
 
 remodoraServices.factory( "Pianobar", ["$resource", function( $resource )
 {
-	return $resource( "api.ws/tickets/:id/:cmd", {},
+	return $resource( "pianobar/:cmd/:id", {},
 	{
-		post: { method:"POST", isArray:false, transformRequest: [], headers: {'Content-Type': undefined } },
-		files: { method:"POST", params: { cmd: "files" }, isArray:false, transformRequest: [], headers: {'Content-Type': undefined } },
-		update: { method:"POST", params: { cmd: "update" }, isArray:false, transformRequest: [], headers: {'Content-Type': undefined } },
-		upload: { method:"POST", params: { cmd: "upload" }, isArray:false, transformRequest: [], headers: {'Content-Type': undefined } }
-	} );
-} ]);
-
-remodoraServices.factory( "UI", ["$resource", function( $resource )
-{
-	return $resource( "api.ws/ui/:id/:cmd", {},
-	{
-		category: { method:"GET", params: { cmd: "category" }, isArray:true },
-		vehicle: { method:"GET", params: { cmd: "vehicle" }, isArray:true },
-		country: { method:"GET", params: { cmd: "country" }, isArray:true },
-		headlamptype: { method:"GET", params: { cmd: "headlamptype" }, isArray:true },
-		headlampcontrol: { method:"GET", params: { cmd: "headlampcontrol" }, isArray:true },
-		failuretypes: { method:"GET", params: { cmd: "failuretypes" }, isArray:true },
-		specificlocation: { method:"GET", params: { cmd: "specificlocation" }, isArray:true }
+		play: { method:"GET", params: { cmd: "play" }, isArray:false, transformRequest: [], headers: {'Content-Type': undefined } },
+		pause: { method:"GET", params: { cmd: "pause" }, isArray:false, transformRequest: [], headers: {'Content-Type': undefined } },
+		next: { method:"GET", params: { cmd: "next" }, isArray:false, transformRequest: [], headers: {'Content-Type': undefined } },
+		thumbup: { method:"GET", params: { cmd: "thumbup" }, isArray:false, transformRequest: [], headers: {'Content-Type': undefined } },
+		thumbdown: { method:"GET", params: { cmd: "thumbdown" }, isArray:false, transformRequest: [], headers: {'Content-Type': undefined } },
+		tired: { method:"GET", params: { cmd: "tired" }, isArray:false, transformRequest: [], headers: {'Content-Type': undefined } },
+		stations: { method:"GET", params: { cmd: "stations" }, isArray:true },
+		changestation: { method:"GET", params: { cmd: "changestation" }, isArray:false, transformRequest: [], headers: {'Content-Type': undefined } },
+		songdetails: { method:"GET", params: { cmd: "songdetails" }, isArray:false, transformRequest: [], headers: {'Content-Type': undefined } },
+		signin: { method:"POST", params: { cmd: "signin" }, isArray:false, transformRequest: [], headers: {'Content-Type': undefined } },
+		poweroff: { method:"GET", params: { cmd: "poweroff" }, isArray:false, transformRequest: [], headers: {'Content-Type': undefined } }
 	} );
 } ]);
