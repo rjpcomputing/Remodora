@@ -3,14 +3,10 @@
 	var appVersion = "2.0-dev";
 	var userCookieName = "user";
 //"Remodora.Login",
-	angular.module( "RemodoraApp", ["ui.router", "ui.bootstrap", "snap", "Remodora.Services"] )
-	.config( ["$stateProvider", "$urlRouterProvider", function ( $stateProvider, $urlRouterProvider )
-	{
-		$urlRouterProvider.otherwise( "/" );
-	} ])
+	angular.module( "RemodoraApp", ["ui.bootstrap", "snap", "Remodora.Services"] )
 
-	.controller( "AppCtrl", [ "$scope", "$location", "$modal", "$state", "Pianobar",
-	function ( $scope, $location, $modal, $state, Pianobar )
+	.controller( "AppCtrl", [ "$scope", "$location", "$modal", "Pianobar",
+	function ( $scope, $location, $modal, Pianobar )
 	{
 		$scope.version = appVersion;
 		$scope.opts =
@@ -25,18 +21,6 @@
 		}
 		$scope.stations = ["Quickmix", "Christian Metal Radio", "Dance Radio"];
 		$scope.currentStation = "Quickmix";
-
-		$scope.$on( "$stateChangeSuccess", function( event, toState, toParams, fromState, fromParams)
-		{
-			if ( angular.isDefined( toState.data.pageTitle ) )
-			{
-				$scope.pageTitle = toState.data.pageTitle;
-			}
-			if ( angular.isDefined( toState.data.pageDescription ) )
-			{
-				$scope.pageDescription = toState.data.pageDescription;
-			}
-		});
 
 		$scope.Play = function()
 		{
