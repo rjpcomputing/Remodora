@@ -103,23 +103,29 @@ select[multiple] ~ .form-control-feedback {
 /* Make the labels not change validation color */
 .control-label { color: inherit; }
 
-/* Landscape phone */
-@media ( min-width: 415px ) {
+/* Portrait styles */
+@media screen and ( orientation: portrait ) {
 	#landscape-controls {
-		display: inherit;
+		display: none;
 	}
 	#portrait-controls {
-		display: none;
+		display: inherit;
+	}
+ }
+/* Landscape styles */
+@media screen and ( orientation: landscape ) and ( max-width: 768px ) {
+	#album-art {
+		width: 276px;
+/*		height: 280px;*/
 	}
 }
-
-/* Portrait phone */
-@media (max-width: 414px) {
+@media screen and ( orientation: landscape )
+{
 	#landscape-controls {
-		display: none;
+		display: inherit;
 	}
 	#portrait-controls {
-		display: inherit;
+		display: none;
 	}
 }
 
@@ -140,5 +146,5 @@ select[multiple] ~ .form-control-feedback {
 
 #landscape-controls p>strong,
 #portrait-controls p>strong {
-	font-size: 1.1em;
+	font-size: 1.2em;
 }

@@ -1,8 +1,51 @@
 #!/usr/bin/env luajit
 local turbo = require( "turbo" )
+local Pianobar = require( "src.pianobar" )( true )
+
+local PianobarActionHandler = class( "PianobarActionHandler", turbo.web.RequestHandler )
+
+function PianobarActionHandler:get( action )
+	if action ~= "poweroff" then Pianobar:Start() end
+	local actions =
+	{
+		play = "P",
+		pause = "S",
+		next = "n",
+		thumbup = "+",
+		thumbdown = "-",
+		tired = "t",
+		poweroff = "q",
+		resetvolume = "^",
+	}
+	Pianobar:PerformAction( actions[action] )
+
+    self:write( { success = true, info = action } )
+end
+
+local PianobarSongDetailsHandler = class( "PianobarSongDetailsHandler", turbo.web.RequestHandler )
+
+function PianobarSongDetailsHandler:get()
+    self:write( Pianobar:GetCurrentDetails() )
+end
+
+local PianobarStationsHandler = class( "PianobarStationsHandler", turbo.web.RequestHandler )
+
+function PianobarStationsHandler:get()
+    self:write( Pianobar:GetStations() )
+end
+
+local PianobarChangeStationHandler = class( "PianobarStationsHandler", turbo.web.RequestHandler )
+
+function PianobarChangeStationHandler:get( station )
+    self:write( Pianobar:ChangeStation( station ) )
+end
 
 local app = turbo.web.Application
 {
+    { "^/pianobar/action/(.*)$", PianobarActionHandler },
+    { "^/pianobar/songdetails$", PianobarSongDetailsHandler },
+    { "^/pianobar/stations$", PianobarStationsHandler },
+    { "^/pianobar/changestation/(.*)$", PianobarChangeStationHandler },
     -- Serve static files from src/ using the route "/"
     { "^/$", turbo.web.StaticFileHandler, "src/index.html" },
     { "^/(.*)$", turbo.web.StaticFileHandler, "src/" },

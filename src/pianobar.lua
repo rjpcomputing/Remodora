@@ -15,6 +15,7 @@
 -- ----------------------------------------------------------------------------
 -- Socket for sleep
 local socket		= require( "socket" )
+local json			= require( "json" )
 -- Penlight
 local class			= require( "pl.class" )
 local path			= require( "pl.path" )
@@ -118,7 +119,7 @@ function Pianobar:_init( shouldLog )
 		self:Trace( "stub config loaded" )
 
 		-- Write the events.lua
-		local eventContents = io.input( "support/events.lua" ):read( "*a" )
+		local eventContents = io.input( "src/support/events.lua" ):read( "*a" )
 		local eventHandle = io.output( self.eventCommandPath )
 		eventHandle:write( eventContents:format( self.configDir ) )
 		eventHandle:close()

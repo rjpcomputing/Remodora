@@ -36,7 +36,7 @@
 				<span class="icon-bar"></span>
 			</button>
 			<div class="container-fluid">
-				<p class="navbar-text"><strong>{{currentStation}}</strong></p>
+				<p class="navbar-text"><strong>{{song.stationName}} <span ng-show="song.songStationName">- <small>{{song.songStationName}}</small></span></strong></p>
 			</div>
 		</nav>
 		<snap-drawer>
@@ -47,6 +47,7 @@
 			</div>
 			<h4>Options</h4>
 			<div class="list-group">
+				<a ng-click="ResetVolume()" class="list-group-item clickable"><i class="fa fa-volume-up fa-fw"></i>&nbsp; Reset Volume</a>
 				<a ng-click="Signin()" class="list-group-item clickable"><i class="fa fa-sign-in fa-fw"></i>&nbsp; Pandora Sign-in</a>
 				<a ng-click="PowerOff()" class="list-group-item clickable"><i class="fa fa-power-off fa-fw"></i>&nbsp; Power Off</a>
 			</div>
@@ -57,13 +58,13 @@
 					<tr>
 						<td>
 							<div id="album-art">
-								<img ng-src="{{song.albumArt}}" class="img-responsive center-block"/>
+								<img id="albumart" ng-src="{{song.coverArt}}" class="img-responsive center-block"/>
 							</div>
 						</td>
-						<td id="landscape-controls" >
+						<td id="landscape-controls">
 							<player-controls></player-controls>
 							<p><strong>{{song.title}}</strong></p>
-							<p ng-show="song.artist && song.album">by <b>{{song.artist}}</b> ({{song.album}})</p>
+							<p ng-show="song.artist && song.album">by <b>{{song.artist}}</b> <small>({{song.album| truncate:30}})</small></p>
 						</td>
 					</tr>
 					<tr class="center-block">
@@ -71,7 +72,7 @@
 							<div class="text-center">
 								<player-controls></player-controls>
 								<p><strong>{{song.title}}</strong></p>
-								<p ng-show="song.artist && song.album">by <b>{{song.artist}}</b> ({{song.album}})</p>
+								<p ng-show="song.artist && song.album">by <b>{{song.artist}}</b> <small>({{song.album | truncate:30}})</small></p>
 							</div>
 						</td>
 					</tr>

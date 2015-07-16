@@ -14,83 +14,117 @@
 			disable: "right"
 		};
 		$scope.song = {
-			albumArt: "/images/song.png",
+			coverArt: "/images/song.png",
 			title: "Loading...",
-			album: "",
-			artist: ""
 		}
-		$scope.stations = ["Quickmix", "Christian Metal Radio", "Dance Radio"];
-		$scope.currentStation = "Quickmix";
+		$scope.stations = [];
+		$scope.currentStation = "";
 
 		$scope.Play = function()
 		{
 			console.log( "play" );
 			Pianobar.play();
+			$scope.SongDetails();
 		}
 
 		$scope.Pause = function()
 		{
 			console.log( "pause" );
 			Pianobar.pause();
+			$scope.SongDetails();
 		}
 
 		$scope.Next = function()
 		{
 			console.log( "next" );
 			Pianobar.next();
+			$scope.SongDetails();
 		}
 
 		$scope.ThumbUp = function()
 		{
 			console.log( "thumb-up" );
 			Pianobar.thumbup();
+			$scope.SongDetails();
 		}
 
 		$scope.ThumbDown = function()
 		{
 			console.log( "thumb-down" );
 			Pianobar.thumbdown();
+			$scope.SongDetails();
 		}
 
 		$scope.Tired = function()
 		{
 			console.log( "tired" );
 			Pianobar.tired();
+			$scope.SongDetails();
 		}
-		
+
+		$scope.ResetVolume = function()
+		{
+			console.log( "resetvolume" );
+			Pianobar.resetvolume();
+		}
+
 		$scope.SongDetails = function()
 		{
 			console.log( "songdetails" );
-			$scope.song = Pianobar.songdetails();
+			Pianobar.songdetails( function( newDetails, headers )
+			{
+				if ( $scope.song.title != newDetails.title ||
+					$scope.song.artist != newDetails.artist ||
+					$scope.song.album != newDetails.album ||
+					$scope.song.rating != newDetails.rating )
+				{
+					console.log("Changed details")
+					$scope.song = newDetails;
+					$scope.currentStation = $scope.song.stationName
+				}
+
+				if ( $scope.song.coverArt.length == 0 )
+				{
+					$scope.song.coverArt = "/images/song.png";
+				}
+			} );
 		}
-		
+
 		$scope.Stations = function()
 		{
 			console.log( "stations" );
 			$scope.stations = Pianobar.stations();
 		}
-		
+
 		$scope.ChangeStation = function( station )
 		{
 			console.log( "changestation", station );
 			Pianobar.changestation( { id: station } );
+			$scope.SongDetails();
 		}
-		
+
 		$scope.Signin = function()
 		{
 			console.log( "signin" );
 			Pianobar.signin();
+			$scope.Play();
+			$scope.SongDetails();
 		}
-		
+
 		$scope.PowerOff = function()
 		{
 			console.log( "poweroff" );
 			Pianobar.poweroff();
+			$scope.SongDetails();
 		}
-		
-//		$scope.Stations();
-//		$scope.SongDetails();
-		
+
+		$scope.Stations();
+		$scope.SongDetails();
+		// Refresh song details every second
+		window.setInterval( function()
+		{
+			$scope.SongDetails();
+		}, 1000 );
 //		$scope.ShowLoginDialog = function()
 //		{
 //			var modalInstance = $modal.open(

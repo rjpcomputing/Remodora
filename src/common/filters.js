@@ -35,7 +35,7 @@ angular.module( "RemodoraApp" )
 	} ] )
 	.filter( "number_fixed_len", [ "$filter", function( $filter )
 	{
-        return function ( n, len )
+        return function( n, len )
 		{
             var num = parseInt( n, 10 );
             len = parseInt( len, 10 );
@@ -49,5 +49,31 @@ angular.module( "RemodoraApp" )
                 num = '0' + num;
             }
             return num;
+        };
+    } ] )
+	.filter('truncate', [ "$filter", function ( $filter ) {
+        return function( text, length, end )
+		{
+			if ( text )
+			{
+				if ( isNaN( length ) )
+				{
+					length = 10;
+				}
+
+				if ( end === undefined )
+				{
+					end = "...";
+				}
+
+				if ( text.length <= length || text.length - end.length <= length )
+				{
+					return text;
+				}
+				else
+				{
+					return String( text ).substring( 0, length - end.length ) + end;
+				}
+			}
         };
     } ] );
