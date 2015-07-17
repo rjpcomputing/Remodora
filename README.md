@@ -29,8 +29,7 @@ The name is just a combination of **Remote** and **Pandora**.
 
 ### Debian Based Distros + Raspbian
 
-1. Install **LuaJIT 2.0**+ and **Pianobar**.
-
+1. Install **LuaJIT 2.0**+ and **Pianobar**.  
 **NOTE**: Pianobar is old when you get it from the repository, so your results may very. Please see doc/notes.md for instructions on installing it from source.
 At this time I recommend installing it from source.
 		
