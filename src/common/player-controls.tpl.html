@@ -1,0 +1,8 @@
+<div class="btn-group">
+	<button ng-click="Play()" ng-class="" ng-hide="isPlaying" class="btn btn-default" tooltip-placement="bottom" tooltip="Play"><i class="fa fa-play fa-2x"></i></button>
+	<button ng-click="Pause()" ng-class="" ng-show="isPlaying" class="btn btn-default" tooltip-placement="bottom" tooltip="Pause"><i class="fa fa-pause fa-2x"></i></button>
+	<button ng-click="Next()" ng-class="" class="btn btn-default" tooltip-placement="bottom" tooltip="Next Track"><i class="fa fa-step-forward fa-2x"></i></button>
+	<button ng-click="ThumbUp()" ng-class="" class="btn btn-default" tooltip-placement="bottom" tooltip="Love Song"><i ng-class="song.rating == 1 ? 'fa-thumbs-up' : 'fa-thumbs-o-up'" class="fa fa-thumbs-o-up fa-2x"></i></button>
+	<button ng-click="ThumbDown()" ng-class="" class="btn btn-default" tooltip-placement="bottom" tooltip="Ban Song"><i class="fa fa-thumbs-o-down fa-2x"></i></button>
+	<button ng-click="Tired()" ng-class="" class="btn btn-default" tooltip-placement="bottom" tooltip="Tired Song (Don't play for a month)"><i class="fa fa-level-down fa-2x"></i></button>
+</div>

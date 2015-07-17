@@ -1,0 +1,41 @@
+#!/usr/bin/env lua
+if "--help" == arg[1] then
+	print( ("Usage: %s [--port=<port-number>] <doc-directory>"):format( arg[0] ) )
+	os.exit( 1 )
+end
+
+---	Checks for the existance of a file.
+--	@param fileName The file path and name as a string.
+--	@return True if the file exists, else false.
+local function FileExists( fileName )
+	local file = io.open( fileName )
+	if file then
+		io.close( file )
+		return true
+	else
+		return false
+	end
+end
+
+-- Parse commandline parameters
+local port = 8080
+local docDirectory = "src/"
+for _, parameter in ipairs( arg ) do
+	if parameter:find( "--port=" ) then
+		port = tonumber( parameter:match( "=(.-)$" ) )
+	elseif parameter:find( "^%-" ) then
+		error( ("Unsupported parameter found. %q"):format( parameter ) )
+	else
+		docDirectory = parameter:gsub( "\\", "/" )
+		if not docDirectory:find( "/$" ) then docDirectory = docDirectory .. "/" end
+	end
+end
+
+local logfile = docDirectory:match('^(.+)[/\\]') .. "/log/xavante.log"
+if false == FileExists( logfile ) then
+	print( ("[%s launcher] Creating %q..."):format( arg[0]:match("[^/]+$"), logfile ) )
+	os.execute( ("mkdir %s/log && touch %q"):format( docDirectory:match('^(.+)[/\\]'), logfile ) )
+end
+
+
+os.execute( ("cd %s && wsapi --reload --port=%i ."):format( docDirectory, port ) )

@@ -1,0 +1,150 @@
+/* Move down content because we have a fixed navbar that is 50px tall */
+body {
+/*	padding-top: 50px;*/
+	min-height:540px;
+}
+
+.navbar {
+	min-height: 48px;
+}
+
+.navbar-text {
+	margin-top: 7px;
+	margin-bottom: 0px;
+}
+
+.snap-content {
+	background-color: #fff;
+	background-color: #eee;
+}
+
+.snap-drawer {
+	background-color: #444;
+	min-height: 20px;
+	padding-top: 36px;
+	padding-right: 10px;
+	padding-left: 10px;
+	background-color: #f9f9f9;
+	border: 1px solid transparent;
+}
+
+/* Adds the 3 dash button */
+.navbar-drawer-toggle {
+	position: relative;
+/*	height: 62px;*/
+	padding: 9px 10px;
+	background-color: transparent;
+	background-image: none;
+	border: 1px solid transparent;
+	border-radius: 3px;
+/*	margin-right: 20px;*/
+	margin-top: 7px;
+/*  margin-bottom: 15px;*/
+}
+
+.navbar-drawer-toggle .icon-bar {
+	display: block;
+	width: 22px;
+	height: 2px;
+	border-radius: 1px;
+	background-color: rgba(0, 0, 0, 0.5);
+}
+
+.navbar-drawer-toggle .icon-bar + .icon-bar {
+	margin-top: 4px;
+}
+
+.navbar-text>strong {
+	font-size: 1.5em;
+	color: #FFF;
+}
+
+.btn-toolbar {
+	text-align: center;
+	padding-bottom: 5px;
+	padding-left: 10px;
+}​
+
+
+.table-responsive { overflow-x: inherit; }
+
+/* Helper classes */
+.nv-file-over { border: dotted 3px lightgray; }
+.clickable { cursor: pointer; }
+.readonly { pointer-events: none; }
+.compact { font-size: x-small; }
+small, .small { font-size: 80%; }
+
+/* Validation styles */
+select ~ .form-control-feedback {
+ margin-right: 15px;
+}
+select[multiple] ~ .form-control-feedback {
+  margin-right: 0;
+}
+.form-control:focus,
+.has-success .form-control:focus,
+.has-warning .form-control:focus,
+.has-error .form-control:focus
+{
+	-webkit-box-shadow: 0px 0px 8px 5px rgba(128,128,128,1);
+	-moz-box-shadow: 0px 0px 8px 5px rgba(128,128,128,1);
+	box-shadow: 0px 0px 8px 5px rgba(128,128,128,1);
+}
+.has-success .form-control, .has-success .form-control:focus {
+	border-left: 5px solid #01BC8C;
+}
+.has-warning .form-control, .has-warning .form-control:focus {
+	border-left: 5px solid #F39C12;
+}
+.has-error .form-control, .has-error .form-control:focus {
+	border-left: 5px solid #E74C3A;
+}
+/* Make the labels not change validation color */
+.control-label { color: inherit; }
+
+/* Portrait styles */
+@media screen and ( orientation: portrait ) {
+	#landscape-controls {
+		display: none;
+	}
+	#portrait-controls {
+		display: inherit;
+	}
+ }
+/* Landscape styles */
+@media screen and ( orientation: landscape ) and ( max-width: 768px ) {
+	#album-art {
+		width: 276px;
+/*		height: 280px;*/
+	}
+}
+@media screen and ( orientation: landscape )
+{
+	#landscape-controls {
+		display: inherit;
+	}
+	#portrait-controls {
+		display: none;
+	}
+}
+
+#landscape-controls p,
+#landscape-controls div {
+	padding-left: 10px;
+}
+
+#portrait-controls .btn-group {
+	padding-top: 5px;
+}
+
+#landscape-controls p,
+#portrait-controls p {
+	margin: 2px;
+	font-size: 1.8em;
+}
+
+#landscape-controls p>strong,
+#portrait-controls p>strong {
+	font-size: 1.2em;
+}
