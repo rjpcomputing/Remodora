@@ -1,6 +1,6 @@
 ## Remodora - Remote Control Pandora Through a Website
 
-_Ryan Pusztai, 2012 (MIT/X11)_
+_Ryan Pusztai, 2015 (MIT/X11)_
 
 Control Pandora through a website using pianobar and libpiano.
 
@@ -18,54 +18,45 @@ The name is just a combination of **Remote** and **Pandora**.
 
 ## Requirements
 
-* [Lua 5.1](http://lua.org)+
-* [Orbiter](http://github.com/stevedonovan/Orbiter)
+* [LuaJIT 5.2](http://luajit.org)+
+* [Turbo.lua](http://github.com/stevedonovan/Orbiter)
 * [Penlight](http://stevedonovan.github.com/Penlight/)
 * [LuaJSON](https://github.com/harningt/luajson)
-* [LuaSocket](http://w3.impa.br/~diego/software/luasocket/)
+* [LuaRocks](http://luarocks.org)
 * [Pianobar](http://github.com/PromyLOPh/pianobar)
 
 ## Installation
 
 ### Debian Based Distros + Raspbian
 
-1. Install **Lua 5.1**+, **LuaRocks**, and **Pianobar**
+1. Install **LuaJIT 2.0**+ and **Pianobar**
+
 **NOTE**: Pianobar is old when you get it from the repository, so your results may very. Please see doc/notes.md for instructions on installing it from source.
 At this time I recommend installing it from source.
-
-	`$ sudo apt-get install lua5.1 luarocks pianobar`
-2. Install **Penlight**, **LuaJSON**, **LuaSocket**
-
-	`$ sudo luarocks install penlight`
-	`$ sudo luarocks install luajson`
-	`$ sudo luarocks install luasocket`
-3. Download the source from [GitHub](https://github.com/rjpcomputing/Remodora/archive/master.zip)
-4. Extract it to any location
-
-	`$ unzip <remodora>.zip`
-5. Change into the 'src' directory and make the `remodora.lua` file executable.
-
-	`$ chmod +x remodora.lua`
-6. Copy `Orbiter` from the 'libs' directory.
-
-	`$ cp -r ../libs/Orbiter/orbiter .`
-7. Execute the `remodora.lua` and open a browser and point it at **http://your-ip:8080/remodora**. **NOTE**: Be aware that you need the **/remodora** because I placed it in a "namespace" to allow more applications to be run from the web framework used.
+```bash
+$ sudo apt-get install luajit pianobar
+```
+2. Install **LuaRocks**
+```bash
+$ wget http://luarocks.org/releases/luarocks-2.2.1.tar.gz
+$ tar zxpf luarocks-2.2.1.tar.gz
+$ cd luarocks-2.2.1
+$ ./configure; sudo make bootstrap
+```
+3. Install **Turbo.lua**, **LuaJSON**
+```bash
+$ sudo luarocks install Turbo.lua
+$ sudo luarocks install luajson
+```
+4. Download the source from [GitHub](https://github.com/rjpcomputing/Remodora/archive/master.zip)
+5. Extract it to any location
+```bash
+$ unzip <remodora>.zip
+```
+6. Execute the `remodora` script from inside the directory you extracted the sourceto.
+7. Open a browser and point it at **http://your-ip:8888**.
 8. When it loads for the first time it will take you to the settings dialog. Fill in your Pandora username and password. Please be aware that Remodora will be managing the pianobar settings file, so if you edit it by hand it will overwrite it.
 9. Enjoy the music.
-
-#### Old Setup
-
-4. Create a FIFO file by running `mkfifo ctl` in your Remodora directory.
-5. Configure Pianobar
-	* Add your username and password to the config file
-
-			# User
-			user = your@user.name
-			password = password
-			# or
-			#password_command = gpg --decrypt ~/password
-			fifo = path_to_ctl
-			event_command = path/to/eventcmd.lua
 
 ### NON-FUNCTIONING - Windows
 
@@ -89,5 +80,6 @@ At this time I recommend installing it from source.
 
 ## Uses
 
-* [Mousetrap](http://github.com/ccampbell/mousetrap)
-* [jQuery](http://jquery.com/)
+* [Turbo.lua](http://turbo.lua)
+* [AngularJS](https://angularjs.org/)
+* [Bootstrap](http://getbootstrap.com)
