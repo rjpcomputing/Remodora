@@ -42,13 +42,13 @@ At this time I recommend installing it from source.
 		$ ./configure; sudo make bootstrap
 3. Install **Turbo.lua** and **LuaJSON**  
 		
-		$ sudo luarocks install Turbo.lua
+		$ sudo luarocks install turbo
 		$ sudo luarocks install luajson
 4. Download the source from [GitHub](https://github.com/rjpcomputing/Remodora/archive/master.zip)
 5. Extract it to any location  
 		
 		$ unzip <remodora>.zip
-6. Execute the `remodora` script from inside the directory you extracted the sourceto.
+6. Execute the `remodora` script from inside the directory you extracted the source to.
 7. Open a browser and point it at **http://your-ip:8888**.
 8. When it loads for the first time it will take you to the settings dialog. Fill in your Pandora username and password. Please be aware that Remodora will be managing the pianobar settings file, so if you edit it by hand it will overwrite it.
 9. Enjoy the music.
