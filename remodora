@@ -42,13 +42,14 @@ end
 
 local app = turbo.web.Application
 {
-    { "^/pianobar/action/(.*)$", PianobarActionHandler },
-    { "^/pianobar/songdetails$", PianobarSongDetailsHandler },
-    { "^/pianobar/stations$", PianobarStationsHandler },
-    { "^/pianobar/changestation/(.*)$", PianobarChangeStationHandler },
+
+    { "^/remodora/pianobar/action/(.*)$", PianobarActionHandler },
+    { "^/remodora/pianobar/songdetails$", PianobarSongDetailsHandler },
+    { "^/remodora/pianobar/stations$", PianobarStationsHandler },
+    { "^/remodora/pianobar/changestation/(.*)$", PianobarChangeStationHandler },
     -- Serve static files from src/ using the route "/"
-    { "^/$", turbo.web.StaticFileHandler, "src/index.html" },
-    { "^/(.*)$", turbo.web.StaticFileHandler, "src/" },
+    { "^/remodora/$", turbo.web.StaticFileHandler, "src/index.html" },
+    { "^/remodora/(.*)$", turbo.web.StaticFileHandler, "src/" },
 }
 
 app:listen( 8888 )
