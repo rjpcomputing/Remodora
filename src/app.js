@@ -14,7 +14,7 @@
 			disable: "right"
 		};
 		$scope.song = {
-			coverArt: "/images/song.png",
+			coverArt: $location.absUrl() + "/images/song.png",
 			title: "Loading...",
 		}
 		$scope.stations = [];
@@ -85,7 +85,7 @@
 
 				if ( $scope.song.coverArt.length == 0 )
 				{
-					$scope.song.coverArt = "/images/song.png";
+					$scope.song.coverArt = $location.absUrl() + "/images/song.png";
 				}
 			} );
 		}
@@ -120,11 +120,11 @@
 
 		$scope.Stations();
 		$scope.SongDetails();
-		// Refresh song details every second
+		// Refresh song details every X second
 		window.setInterval( function()
 		{
 			$scope.SongDetails();
-		}, 1000 );
+		}, 5000 );
 //		$scope.ShowLoginDialog = function()
 //		{
 //			var modalInstance = $modal.open(

@@ -48,8 +48,8 @@ At this time I recommend installing it from source.
 5. Extract it to any location
 		
 		$ unzip <remodora>.zip
-6. Execute the `remodora` script from inside the directory you extracted the source to.
-7. Open a browser and point it at **http://your-ip:8888**.
+6. Execute the `remodora` script from inside the directory you extracted the source to. If a prefix is needed the pass that as the first argument.
+7. Open a browser and point it at **http://your-ip:8888/<prefix-if-any>**.
 8. When it loads for the first time it will take you to the settings dialog. Fill in your Pandora username and password. Please be aware that Remodora will be managing the pianobar settings file, so if you edit it by hand it will overwrite it.
 9. Enjoy the music.
 

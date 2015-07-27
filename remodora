@@ -40,16 +40,18 @@ function PianobarChangeStationHandler:get( station )
     self:write( Pianobar:ChangeStation( station ) )
 end
 
+local prefix = arg[1] or ""
+
 local app = turbo.web.Application
 {
 
-    { "^/remodora/pianobar/action/(.*)$", PianobarActionHandler },
-    { "^/remodora/pianobar/songdetails$", PianobarSongDetailsHandler },
-    { "^/remodora/pianobar/stations$", PianobarStationsHandler },
-    { "^/remodora/pianobar/changestation/(.*)$", PianobarChangeStationHandler },
+    { "^/" .. prefix .. "pianobar/action/(.*)$", PianobarActionHandler },
+    { "^/" .. prefix .. "pianobar/songdetails$", PianobarSongDetailsHandler },
+    { "^/" .. prefix .. "pianobar/stations$", PianobarStationsHandler },
+    { "^/" .. prefix .. "pianobar/changestation/(.*)$", PianobarChangeStationHandler },
     -- Serve static files from src/ using the route "/"
-    { "^/remodora/$", turbo.web.StaticFileHandler, "src/index.html" },
-    { "^/remodora/(.*)$", turbo.web.StaticFileHandler, "src/" },
+    { "^/" .. prefix .. "$", turbo.web.StaticFileHandler, "src/index.html" },
+    { "^/" .. prefix .. "(.*)$", turbo.web.StaticFileHandler, "src/" },
 }
 
 app:listen( 8888 )
