@@ -19,7 +19,7 @@ body {
 }
 
 .snap-drawer {
-	background-color: #444;
+	/*background-color: #444;*/
 	min-height: 20px;
 	padding-top: 36px;
 	padding-right: 10px;
@@ -63,7 +63,7 @@ body {
 	text-align: center;
 	padding-bottom: 5px;
 	padding-left: 10px;
-}​
+}
 
 
 .table-responsive { overflow-x: inherit; }
@@ -111,7 +111,7 @@ select[multiple] ~ .form-control-feedback {
 	#portrait-controls {
 		display: inherit;
 	}
- }
+}
 /* Landscape styles */
 @media screen and ( orientation: landscape ) and ( max-width: 768px ) {
 	#album-art {

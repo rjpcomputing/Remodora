@@ -54,5 +54,7 @@ local app = turbo.web.Application
     { "^/" .. prefix .. "(.*)$", turbo.web.StaticFileHandler, "src/" },
 }
 
-app:listen( 8888 )
+local port = os.getenv( "PORT" ) or 8888
+
+app:listen( tonumber( port ) )
 turbo.ioloop.instance():start()

@@ -16,7 +16,7 @@
 		$scope.song = {
 			coverArt: $location.absUrl() + "/images/song.png",
 			title: "Loading...",
-		}
+		};
 		$scope.stations = [];
 		$scope.currentStation = "";
 
@@ -25,48 +25,48 @@
 			console.log( "play" );
 			Pianobar.play();
 			$scope.SongDetails();
-		}
+		};
 
 		$scope.Pause = function()
 		{
 			console.log( "pause" );
 			Pianobar.pause();
 			$scope.SongDetails();
-		}
+		};
 
 		$scope.Next = function()
 		{
 			console.log( "next" );
 			Pianobar.next();
 			$scope.SongDetails();
-		}
+		};
 
 		$scope.ThumbUp = function()
 		{
 			console.log( "thumb-up" );
 			Pianobar.thumbup();
 			$scope.SongDetails();
-		}
+		};
 
 		$scope.ThumbDown = function()
 		{
 			console.log( "thumb-down" );
 			Pianobar.thumbdown();
 			$scope.SongDetails();
-		}
+		};
 
 		$scope.Tired = function()
 		{
 			console.log( "tired" );
 			Pianobar.tired();
 			$scope.SongDetails();
-		}
+		};
 
 		$scope.ResetVolume = function()
 		{
 			console.log( "resetvolume" );
 			Pianobar.resetvolume();
-		}
+		};
 
 		$scope.SongDetails = function()
 		{
@@ -78,9 +78,9 @@
 					$scope.song.album != newDetails.album ||
 					$scope.song.rating != newDetails.rating )
 				{
-					console.log("Changed details")
+					console.log("Changed details");
 					$scope.song = newDetails;
-					$scope.currentStation = $scope.song.stationName
+					$scope.currentStation = $scope.song.stationName;
 				}
 
 				if ( $scope.song.coverArt.length == 0 )
@@ -88,20 +88,20 @@
 					$scope.song.coverArt = $location.absUrl() + "/images/song.png";
 				}
 			} );
-		}
+		};
 
 		$scope.Stations = function()
 		{
 			console.log( "stations" );
 			$scope.stations = Pianobar.stations();
-		}
+		};
 
 		$scope.ChangeStation = function( station )
 		{
 			console.log( "changestation", station );
 			Pianobar.changestation( { id: station } );
 			$scope.SongDetails();
-		}
+		};
 
 		$scope.Signin = function()
 		{
@@ -109,14 +109,14 @@
 			Pianobar.signin();
 			$scope.Play();
 			$scope.SongDetails();
-		}
+		};
 
 		$scope.PowerOff = function()
 		{
 			console.log( "poweroff" );
 			Pianobar.poweroff();
 			$scope.SongDetails();
-		}
+		};
 
 		$scope.Stations();
 		$scope.SongDetails();
@@ -209,5 +209,5 @@
 			replace: "true",
 			templateUrl: "common/player-controls.tpl.html"
 		};
-	} ])
+	} ]);
 } )();
