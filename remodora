@@ -2,6 +2,10 @@
 local turbo = require( "turbo" )
 local Pianobar = require( "src.pianobar" )( true )
 
+function string.ends( str, endsWith )
+   return endsWith == "" or string.sub( str, -str.len( endsWith ) ) == endsWith
+end
+
 local PianobarActionHandler = class( "PianobarActionHandler", turbo.web.RequestHandler )
 
 function PianobarActionHandler:get( action )
@@ -41,7 +45,7 @@ function PianobarChangeStationHandler:get( station )
 end
 
 local prefix = arg[1] or ""
-
+if #prefix > 1 and not prefix:ends( "/" ) then prefix = prefix .. "/" end
 local app = turbo.web.Application
 {
 
@@ -50,7 +54,7 @@ local app = turbo.web.Application
     { "^/" .. prefix .. "pianobar/stations$", PianobarStationsHandler },
     { "^/" .. prefix .. "pianobar/changestation/(.*)$", PianobarChangeStationHandler },
     -- Serve static files from src/ using the route "/"
-    { "^/" .. prefix .. "$", turbo.web.StaticFileHandler, "src/index.html" },
+    { "^/" .. prefix:sub( 1, #prefix - 1 ) .. "$", turbo.web.StaticFileHandler, "src/index.html" },
     { "^/" .. prefix .. "(.*)$", turbo.web.StaticFileHandler, "src/" },
 }
 
