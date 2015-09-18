@@ -19,12 +19,14 @@
 		};
 		$scope.stations = [];
 		$scope.currentStation = "";
+		$scope.isPlaying = true;
 
 		$scope.Play = function()
 		{
 			console.log( "play" );
 			Pianobar.play();
 			$scope.SongDetails();
+			$scope.isPlaying = true;
 		};
 
 		$scope.Pause = function()
@@ -32,6 +34,7 @@
 			console.log( "pause" );
 			Pianobar.pause();
 			$scope.SongDetails();
+			$scope.isPlaying = false;
 		};
 
 		$scope.Next = function()
@@ -81,6 +84,7 @@
 					console.log("Changed details");
 					$scope.song = newDetails;
 					$scope.currentStation = $scope.song.stationName;
+					$scope.isPlaying = true;
 				}
 
 				if ( $scope.song.coverArt.length == 0 )
@@ -116,6 +120,7 @@
 			console.log( "poweroff" );
 			Pianobar.poweroff();
 			$scope.SongDetails();
+			$scope.isPlaying = false;
 		};
 
 		$scope.Stations();
