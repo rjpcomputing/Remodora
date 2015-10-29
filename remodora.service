@@ -1,0 +1,10 @@
+[Unit]
+Description=Control Pandora through a website using pianobar and libpiano.
+
+[Service]
+ExecStart=/opt/remodora/remodora
+User=www-data
+Group=www-data
+
+[Install]
+WantedBy=multi-user.target
