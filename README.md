@@ -34,6 +34,13 @@ The name is just a combination of **Remote** and **Pandora**.
 At this time I recommend installing it from source.
 
 		$ sudo apt-get install luajit pianobar libssl-dev liblua5.1-0-dev
+If you are using a Raspberry Pi 2 I recommend using Pulse Audio by simply installing it. I found that there is a lot of static from the analog headphone jack.
+Installing pulseaudio
+
+		$ sudo apt-get install pulseaudio
+Edit `/etc/libao.conf` by changing **default_driver=alsa** to **default_driver=pulse**.
+
+		$ sudo nano /etc/libao.conf
 2. Install **LuaRocks**
 
 		$ wget http://luarocks.org/releases/luarocks-2.2.2.tar.gz
@@ -56,6 +63,34 @@ At this time I recommend installing it from source.
 7. Open a browser and point it at **http://your-ip:8888/<prefix-if-any>**.
 8. When it loads for the first time it will take you to the settings dialog. Fill in your Pandora username and password. Please be aware that Remodora will be managing the pianobar settings file, so if you edit it by hand it will overwrite it.
 9. Enjoy the music.
+
+### Debian Jessie+ Start At Boot
+
+This will make Remodora start on boot and run as the user `www-data`.
+
+**NOTE**: Please review the settings in `remodora.service` if you choose to store the files somewhere else.
+
+1. Copy `Remodora` directory to `/var/turbo/remodora`.
+
+		$ mkdir /var/turbo
+		$ cp Remodora /var/turbo
+		$ mv /var/turbo/Remodora /var/turbo/remodora
+2. Copy the `remodora.service` file to `/etc/systemd/system/remodora.service`.
+		$ sudo cp /var/turbo/remodora/remodora.service /etc/systemd/system
+3. Change the permissions of the file to **664**.
+
+		$ sudo chmod 664 /etc/systemd/system/remodora.service
+4. Reload systemd config.
+
+		$ sudo systemctl daemon-reload
+5. Make the `.config` directory manually so that the user that runs the service can use to store **Pianobars** configuration.
+
+		$ sudo mkdir -p /var/www/.config
+		$ sudo chown www-data:www-data /var/www/.config
+6. Allow the user `www-data` to play the music by adding `www-data` to the **audio** group in `/etc/group`.
+7. Add the service to start automatically on boot.
+
+		$ sudo systemctl enable remodora.service
 
 ### NON-FUNCTIONING - Windows
 
