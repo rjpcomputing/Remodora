@@ -33,7 +33,7 @@ The name is just a combination of **Remote** and **Pandora**.
 **NOTE**: Pianobar is old when you get it from the repository, so your results may very. Please see doc/notes.md for instructions on installing it from source.
 At this time I recommend installing it from source.
 
-		$ sudo apt-get install luajit pianobar
+		$ sudo apt-get install luajit pianobar libssl-dev liblua5.1-0-dev
 2. Install **LuaRocks**
 
 		$ wget http://luarocks.org/releases/luarocks-2.2.2.tar.gz
