@@ -2,7 +2,7 @@
 Description=Control Pandora through a website using pianobar and libpiano.
 
 [Service]
-ExecStart=/opt/remodora/remodora
+ExecStart=/var/turbo/remodora/remodora
 User=www-data
 Group=www-data
 
