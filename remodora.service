@@ -3,6 +3,7 @@ Description=Control Pandora through a website using pianobar and libpiano.
 
 [Service]
 ExecStart=/var/turbo/remodora/remodora
+WorkingDirectory=/var/turbo/remodora
 User=www-data
 Group=www-data
 
