@@ -44,6 +44,8 @@ At this time I recommend installing it from source.
 
 		$ sudo luarocks install turbo
 		$ sudo luarocks install luajson
+		$ sudo luarocks install penlight
+		$ sudo luarocks install luasocket
 4. Download the source from [GitHub](https://github.com/rjpcomputing/Remodora/archive/master.zip)
 5. Extract it to any location
 
