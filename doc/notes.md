@@ -1,3 +1,10 @@
+## Remove Uneeded Packages
+
+* sudo apt-get remove cups*
+* sudo apt-get remove gnome*
+* sudo apt-get remove x11-common*
+* sudo apt-get autoremove
+
 ## Raspberry Pi Pianobar Setup
 
 ### Pianobar
