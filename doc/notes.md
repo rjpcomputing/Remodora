@@ -1,4 +1,4 @@
-## Remove Uneeded Packages
+## Remove Unneeded Packages
 
 * `$ sudo apt-get remove cups*`
 * `$ sudo apt-get remove gnome*`
