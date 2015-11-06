@@ -1,4 +1,4 @@
-## Remove Unneeded Packages
+## Remove Unneeded/Desktop Packages
 	
 	$ sudo apt-get remove --purge desktop-base lightdm lxappearance lxde-common lxde-icon-theme lxinput lxpanel lxpolkit lxrandr lxsession-edit lxshortcut lxtask lxterminal
 	$ sudo apt-get  remove --purge wolfram-engine
