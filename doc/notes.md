@@ -1,9 +1,8 @@
 ## Remove Unneeded Packages
-
-* `$ sudo apt-get remove cups*`
-* `$ sudo apt-get remove gnome*`
-* `$ sudo apt-get remove x11-common*`
-* `$ sudo apt-get autoremove`
+	
+	$ sudo apt-get remove --purge desktop-base lightdm lxappearance lxde-common lxde-icon-theme lxinput lxpanel lxpolkit lxrandr lxsession-edit lxshortcut lxtask lxterminal
+	$ sudo apt-get  remove --purge wolfram-engine
+	$ sudo apt-get remove --purge obconf openbox raspberrypi-artwork xarchiver xinit xserver-xorg xserver-xorg-video-fbdev x11-utils x11-common x11-session utils
 
 ## Raspberry Pi Pianobar Setup
 
