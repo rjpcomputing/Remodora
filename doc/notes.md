@@ -1,7 +1,7 @@
 ## Remove Unneeded/Desktop Packages
 	
 	$ sudo apt-get remove --purge desktop-base lightdm lxappearance lxde-common lxde-icon-theme lxinput lxpanel lxpolkit lxrandr lxsession-edit lxshortcut lxtask lxterminal
-	$ sudo apt-get  remove --purge wolfram-engine squeak-* bluej
+	$ sudo apt-get  remove --purge wolfram-engine squeak-* libreoffice* bluej
 	$ sudo apt-get remove --purge obconf openbox raspberrypi-artwork xarchiver xinit xserver-xorg xserver-xorg-video-fbdev x11-utils x11-common x11-session utils
 
 ## Raspberry Pi Pianobar Setup
