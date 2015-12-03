@@ -105,7 +105,8 @@ function Pianobar:_init( shouldLog )
 		audio_quality = high
 		event_command = $eventcommand
 		fifo = $fifo
-		tls_fingerprint = 2D0AFDAFA16F4B5C0A43F3CB1D4752F9535507C0]] % { eventcommand = self.eventCommandPath, fifo = self.fifoPath }
+		rpc_host = internal-tuner.pandora.com
+		tls_fingerprint = 7F2BFD338D08D6F952D215C0FC8C3C4C1DC1772F]] % { eventcommand = self.eventCommandPath, fifo = self.fifoPath }
 		-- Remove tabs
 		stub = stub:gsub( "\t", "" )
 
