@@ -236,10 +236,11 @@ function Pianobar:Quit()
 	os.remove( path.join( self.configDir, "current_details.json" ) )
 	self:Trace( "Quit" )
 	-- We tried nicely, now it is time to KILL!
-	if self:IsRunning() then
-		os.execute( "killall -9 pianobar" )
-		self:Trace( "Still found pianobar. Forcefully killed...")
-	end
+	--if self:IsRunning() then
+	socket.sleep( 1 )
+	os.execute( "killall -9 pianobar" )
+	self:Trace( "Still found pianobar. Forcefully killed...")
+	--end
 end
 
 return Pianobar
