@@ -1,8 +1,10 @@
 ## Remodora - Remote Control Pandora Through a Website
 
-_Ryan Pusztai, 2015 (MIT/X11)_
+_Ryan Pusztai, 2016 (MIT/X11)_
 
 Control Pandora through a website using pianobar and libpiano.
+
+![Remodora Screenshot](/doc/remodora-screenshot.png?raw=true "Optional Title")
 
 ## Why Remodora?
 
@@ -57,10 +59,13 @@ Edit `/etc/libao.conf` by changing **default_driver=alsa** to **default_driver=p
 5. Extract it to any location
 
 		$ unzip <remodora>.zip
-6. Execute the `remodora` script from inside the directory you extracted the source to. If a prefix is needed the pass that as the first argument. Also change the **href** attribute of `<base href="">` in the file `index.html` to match.
+6. Execute the `remodora` script from inside the directory you extracted the source to. If a prefix is needed then pass that as the first argument. A prefix is appended to the URL. This can be useful if you are running any other apps on the server or for using a proxy server. In normal operation this is probably not needed. Also change the **href** attribute of `<base href="">` in the file `index.html` to match any prefix you are using.
 
-		$ ./remodora remodora
-7. Open a browser and point it at **http://your-ip:8888/<prefix-if-any>**.
+		$ ./remodora
+or
+
+		$ ./remodora <prefix-if-any>
+7. Open a browser and point it at **`http://your-ip:8888/<prefix-if-any>`**.
 8. When it loads for the first time it will take you to the settings dialog. Fill in your Pandora username and password. Please be aware that Remodora will be managing the pianobar settings file, so if you edit it by hand it will overwrite it.
 9. Enjoy the music.
 
