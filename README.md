@@ -20,7 +20,7 @@ The name is just a combination of **Remote** and **Pandora**.
 
 ## Requirements
 
-* [LuaJIT 5.2](http://luajit.org)+
+* [LuaJIT 2.0+](http://luajit.org)+
 * [Turbo.lua](http://github.com/stevedonovan/Orbiter)
 * [Penlight](http://stevedonovan.github.com/Penlight/)
 * [LuaJSON](https://github.com/harningt/luajson)
