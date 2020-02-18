@@ -48,7 +48,7 @@ You have to restart pulseaudio for the setting to take effect. Simplest method i
 
 	`$ sudo nano /usr/share/alsa/alsa.conf`
 
-### Get Also to work on Arch
+### Get ALSA to work on Arch
 
 * The amixer command can list all control interfaces:
 
