@@ -61,4 +61,5 @@ You have to restart pulseaudio for the setting to take effect. Simplest method i
 	numid=4,iface=PCM,name='IEC958 Playback Default'
 	```
 	numid3 is the Playback Route and can be set as described above: 1 = 3.5 jack, 2 = HDMI and 0 = auto
+	
 	using `amixer cset numid=3 1` forces output to the 3.5mm jack.
