@@ -47,3 +47,18 @@ You have to restart pulseaudio for the setting to take effect. Simplest method i
 * Change the line in `/usr/share/alsa/alsa.conf` from **pcm.front cards.pcm.front** to **pcm.front cards.pcm.default**
 
 	`$ sudo nano /usr/share/alsa/alsa.conf`
+
+### Get Also to work on Arch
+
+* The amixer command can list all control interfaces:
+
+	```bash
+	$ amixer controls
+	numid=3,iface=MIXER,name='PCM Playback Route'
+	numid=2,iface=MIXER,name='PCM Playback Switch'
+	numid=1,iface=MIXER,name='PCM Playback Volume'
+	numid=5,iface=PCM,name='IEC958 Playback Con Mask'
+	numid=4,iface=PCM,name='IEC958 Playback Default'
+	```
+	numid3 is the Playback Route and can be set as described above: 1 = 3.5 jack, 2 = HDMI and 0 = auto
+	using `amixer cset numid=3 1` forces output to the 3.5mm jack.
