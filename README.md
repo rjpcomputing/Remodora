@@ -1,6 +1,6 @@
 ## Remodora - Remote Control Pandora Through a Website
 
-_Ryan Pusztai, 2016 (MIT/X11)_
+_Ryan Pusztai, 2020 (MIT/X11)_
 
 Control Pandora through a website using pianobar and libpiano.
 
@@ -101,25 +101,20 @@ This will make Remodora start on boot and run as the user `www-data`.
 
 		$ sudo systemctl enable remodora.service
 
-### NON-FUNCTIONING - Windows
+## Docker
 
-**CAUTION! CAUTION!** - Does not work at this because `fifo` is not currently supported by the Pianobar Windows port.
+Remodora supports docker now. There are 2 Docker arguments you need when building the image.
 
-1. Install [Lua for Windows](http://code.google.com/p/luaforwindows/)
-2. Install the [Windows version of Pianobar](https://github.com/thedmd/pianobar-windows)
-3. Configure Pianobar
-	* Add your username and password to the config file
+1. **user** - Pandora user
+1. **password** - Pandora password
 
-			# User
-			user = your@user.name
-			password = password
-			# or
-			#password_command = gpg --decrypt ~/password
-2. Download the source from [GitHub](https://github.com/rjpcomputing/Remodora/archive/master.zip)
-3. Extract the source
-4. Double-click on the `remodora.lua`. This will open a Command Prompt
-5. Open your web browser and point it at **http://your-ip:8080**.
-6. Enjoy the music.
+### Build Image
+
+`docker build --build-arg user=<pandora_user> --build-arg password=<pandora_password> -t remodora .`
+
+### Run Image
+
+`docker run -it -p 8888:8888 --rm remodora`
 
 ## Uses
 
