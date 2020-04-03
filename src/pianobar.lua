@@ -29,7 +29,8 @@ text.format_operator()
 -- HELPER FUNCTIONS -----------------------------------------------------------
 --
 local function IsProcessRunning( processName )
-	local ret = io.popen( ("ps --no-heading -C %s"):format( processName ) ):read( "*a" )
+	--local ret = io.popen( ("ps --no-heading -C %s"):format( processName ) ):read( "*a" )
+	local ret = io.popen( ("pgrep %s"):format( processName ) ):read( "*a" )
 
 	return #ret > 0
 --	return os.execute( ("ps --no-heading -C %s &> /dev/null &"):format( processName ) ) == 0

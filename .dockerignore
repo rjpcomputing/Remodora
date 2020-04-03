@@ -1,0 +1,12 @@
+node_modules
+doc
+.env
+.eslintrc.json
+.git
+.gitignore
+.gitmodules
+.dockerignore
+Dockerfile
+README.md
+remodora.service
+orbit-remodora
