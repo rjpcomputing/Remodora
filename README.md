@@ -108,6 +108,8 @@ Remodora supports docker now. There are 2 Docker arguments you need when buildin
 1. **user** - Pandora user
 1. **password** - Pandora password
 
+**NOTE**: Sound only works in Linux/Mac Docker hosts because Windows Docker hosts don't yet support `/dev/snd` (block devices).
+
 ### Build Image
 
 `docker build --build-arg user=<pandora_user> --build-arg password=<pandora_password> -t remodora .`
