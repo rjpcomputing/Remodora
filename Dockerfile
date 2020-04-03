@@ -3,7 +3,7 @@ FROM alpine:latest
 ARG user
 ARG password
 
-RUN apk add build-base luajit luarocks5.1 lua5.1-dev openssl-dev pianobar git nano htop
+RUN apk add build-base luajit luarocks5.1 lua5.1-dev openssl-dev alsa-utils pianobar git nano htop
 
 WORKDIR /opt/remodora
 

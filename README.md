@@ -114,7 +114,7 @@ Remodora supports docker now. There are 2 Docker arguments you need when buildin
 
 ### Run Image
 
-`docker run -it -p 8888:8888 --rm remodora`
+`docker run -it -p 8888:8888 --device /dev/snd --rm remodora`
 
 ## Uses
 
